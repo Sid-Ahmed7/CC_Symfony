@@ -1,0 +1,12 @@
+App\Entity\Program:
+  program_{1..20}:
+    name: "Program current()<>"
+    description: "sentece()"
+    createdAt: "<dateTime()>"
+    startDate: '<dateTimeBetween("-1 year", "now")>'
+    endDate: '<dateTimeBetween("now", "+1 year")>'
+    coach: "@coach_*"
+    users: 
+    - "@users_*"
+    sessions: "@sessions_*"
+

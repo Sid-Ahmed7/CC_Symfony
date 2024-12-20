@@ -1,0 +1,19 @@
+App\Entity\Coach:
+  coach_{1..20}:
+    firstName: "<firstName()>"
+    lastName: "<lastName()>"
+    email: "email"
+    phone: "01-02-03-04-05"
+    bio: "<sentence()>"
+    profilePicture: "https://picsum.photos/400/550?random=<numberBetween(1, 100)>"
+    rating: "<numberBetween(1, 5)>"
+    programs: 
+      - '@program_*'
+    sessions: '@session_*'
+    users: 
+      - '@users_*'
+    specialities: 
+      - '@speciality_*'
+      
+  
+

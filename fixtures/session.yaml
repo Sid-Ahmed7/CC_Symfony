@@ -1,0 +1,19 @@
+App\Entity\Session:
+  sessions_{1..20}:
+    title: "Session <current()>"
+    description: "<sentence()>"
+    date: "<dateTimeBetween('-2 years', '+2 years')>"
+    duration: "<numberBetween(5, 250)> "
+    location: "Paris"
+    program: '@program_*'
+    coach: '@coach_*'
+    sessionHistories: '@sessionHistory_*'
+    status: !php/const App\Enum\SessionStatusEnum::INPROGRESS
+
+App\Entity\SessionHistory:
+  sessionHistory_{1..20}:
+    session: '@session_*'
+    date: "<dateTimeBetween('-1 year', 'now')>"
+    goals: "<sentence()>"
+    comments: "<sentence()>"
+    member: '@users_*'

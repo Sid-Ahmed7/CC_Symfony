@@ -104,8 +104,6 @@ class CoachController extends AbstractController
         $coach = $this->getUser();
         $programs = $entityManager->getRepository(Program::class)->findBy(['coach' => $coach]);
 
-       
-
         $session = new Session();
 
         $form = $this->createForm(SessionType::class, $session, [

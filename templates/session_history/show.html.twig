@@ -3,11 +3,11 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <h1>{{ session.title }}</h1>
+    {# <h1>{{ session.title }}</h1> #}
     <p>{{ session.description }}</p>
     <p>Date: {{ session.date|date('Y-m-d H:i') }}</p>
     <p>Location: {{ session.location }}</p>
-    <a href="{{ path('app_session_history_new', {'id': session.id}) }}" class="btn btn-primary">Add History</a>
+    <a href="{{ path('app_session_history_new') }}" class="btn btn-primary">Add History</a>
 
     <h2>Session History</h2>
     <ul>

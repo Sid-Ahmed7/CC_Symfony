@@ -234,7 +234,7 @@ public function showProgram(int $id, ProgramRepository $programRepository): Resp
             $entityManager->persist($sessionHistory);
             $entityManager->flush();  
         }
-        $entityManager->persist($session); // Mettez à jour la relation dans Doctrine
+        $entityManager->persist($session); 
         $entityManager->flush();
        
         return $this->redirectToRoute('app_home');
@@ -244,32 +244,37 @@ public function showProgram(int $id, ProgramRepository $programRepository): Resp
     #[IsGranted('ROLE_USER')]
     public function cancel(Request $request, Program $program, EntityManagerInterface $entityManager): RedirectResponse
     {
-        $user = $this->getUser(); // Récupère l'utilisateur actuel
+        $user = $this->getUser();
     
-        // Vérifier si l'utilisateur est inscrit au programme
+  
         if (!$program->getUsers()->contains($user)) {
             $this->addFlash('error', 'Vous n\'êtes pas inscrit à ce programme.');
-            return $this->redirectToRoute('app_user_programs'); // Redirection vers la liste des programmes
+            return $this->redirectToRoute('app_user_programs');
         }
     
-        // Annuler la participation de l'utilisateur au programme
-        $program->removeUser($user);
-    
-        // Annuler les séances associées à ce programme pour cet utilisateur
+
         foreach ($program->getSessions() as $session) {
-            if ($session->getMembers()->contains($user)) {
-                $session->removeMember($user); // Retirer l'utilisateur de la séance
-                // Ne supprimez pas la séance, elle peut être réutilisée pour un autre utilisateur
+
+            $sessionHistories = $session->getSessionHistories(); 
+            foreach ($sessionHistories as $sessionHistory) {
+                if ($sessionHistory->getMember() === $user) {
+                    $entityManager->remove($sessionHistory); 
+                }
             }
         }
     
-        // Sauvegarder les modifications
+        $program->removeUser($user);
+    
+        foreach ($program->getSessions() as $session) {
+            if ($session->getMembers()->contains($user)) {
+                $session->removeMember($user);
+            }
+        }
+    
         $entityManager->flush();
     
-        // Ajouter un message flash pour informer l'utilisateur
         $this->addFlash('success', 'Votre participation au programme a été annulée.');
     
-        // Rediriger vers la liste des programmes de l'utilisateur
         return $this->redirectToRoute('app_user_programs');
     }
 }

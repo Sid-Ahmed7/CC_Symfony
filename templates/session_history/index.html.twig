@@ -1,50 +1,67 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <div class="container mx-auto px-4 my-6">
-        <h1 class="text-center text-3xl font-semibold text-gray-800 mb-6">Suivi des Séances</h1>
+    <h1 class="text-center text-3xl font-semibold text-gray-800 mb-6">Suivi des Séances</h1>
 
-        <a href="{{ path('app_session_history_new') }}" class="btn bg-green-500 text-white px-4 py-2 rounded-lg mb-6 inline-block hover:bg-green-600 transition duration-300">
-            Ajouter un nouvelle objectif
-        </a>
+    {% if session_histories is empty %}
+        <div class="alert bg-blue-100 text-blue-800 p-4 rounded-lg shadow-md">
+            Aucune séance enregistrée pour cet utilisateur.
+        </div>
+    {% else %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {% for sessionH in session_histories %}
+                <div class="card bg-white shadow-xl rounded-lg p-6 border-l-4 border-blue-500 flex flex-col space-y-6">
+                    <div class="flex flex-col justify-between h-full">
+                        <div class="flex justify-between items-center">
+                            <h5 class="text-xl font-bold text-gray-800">{{ sessionH.session.title }}</h5>
+                        </div>
 
-        {% if session_histories is empty %}
-            <div class="alert alert-info bg-blue-100 text-blue-800 p-4 rounded-lg">
-                Aucune séance enregistrée pour cet utilisateur.
-            </div>
-        {% else %}
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {% for sessionH in session_histories %}
-                    <div class="card bg-white shadow-lg rounded-lg p-4 border-l-4 border-blue-500">
-                        <h5 class="text-xl font-bold text-gray-800">{{ sessionH.session.title }}</h5>
-                        <p class="text-gray-600 mt-2">
-                            <strong>Date: </strong> <span class="text-gray-500">{{ sessionH.sessionDate|date('Y-m-d') }}</span><br>
-                            <strong>Objectifs: </strong> 
-                            <span class="text-gray-500">
+                        <div>
+                            <strong class="text-gray-700">Objectifs:</strong>
+                            <p class="text-gray-600 mt-2">
                                 {% if sessionH.goals|length > 100 %}
                                     {{ sessionH.goals|slice(0, 100) }}...
                                 {% else %}
                                     {{ sessionH.goals }}
                                 {% endif %}
-                            </span><br>
-                            <strong>Commentaires: </strong> 
-                            <span class="text-gray-500">
+                            </p>
+                        </div>
+
+                        <div>
+                            <strong class="text-gray-700">Commentaires:</strong>
+                            <p class="text-gray-600 mt-2">
                                 {% if sessionH.comments|length > 100 %}
                                     {{ sessionH.comments|slice(0, 100) }}...
                                 {% else %}
                                     {{ sessionH.comments }}
                                 {% endif %}
-                            </span><br>
-                            <strong>Status: </strong> 
-                            {% if sessionH.isCancelled %}
-                                <span class="bg-red-500 text-white px-2 py-1 rounded-full text-xs">Annulée</span>
-                            {% else %}
-                                <span class="bg-green-500 text-white px-2 py-1 rounded-full text-xs">Active</span>
-                            {% endif %}
-                        </p>
+                            </p>
+                        </div>
+
+                        <div class="mt-4">
+                            <strong class="text-gray-700">Statut:</strong>
+                            <div class="mt-2">
+                                {% if sessionH.isCancelled %}
+                                    <span class="bg-red-500 text-white px-3 py-1 rounded-full text-xs">Annulée</span>
+                                {% else %}
+                                    <span class="bg-green-500 text-white px-3 py-1 rounded-full text-xs">Active</span>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
-                {% endfor %}
-            </div>
-        {% endif %}
-    </div>
+
+                    <div class="mt-4 flex justify-between items-center space-x-4">
+
+                        <a href="{{ path('app_session_history_edit', {'id': sessionH.id}) }}" class="btn bg-yellow-500 text-white px-4 py-2 rounded-lg inline-block hover:bg-yellow-600 transition duration-300">
+                        Modifier
+                        </a>
+                        
+
+
+    {{ include('session_history/_delete_form.html.twig') }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endblock %}

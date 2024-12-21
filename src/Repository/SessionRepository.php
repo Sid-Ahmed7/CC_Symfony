@@ -40,4 +40,13 @@ class SessionRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+public function findByUser(User $user): array
+{
+    return $this->createQueryBuilder('s')
+        ->innerJoin('s.members', 'u') // Assuming 'members' is the relation between sessions and users
+        ->andWhere('u.id = :userId')
+        ->setParameter('userId', $user->getId())
+        ->getQuery()
+        ->getResult();
+}
 }

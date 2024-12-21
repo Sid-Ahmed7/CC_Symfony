@@ -21,11 +21,7 @@ class SessionHistoryType extends AbstractType
             ])
             ->add('goals', TextareaType::class)
             ->add('comments', TextareaType::class)
-            ->add('session', EntityType::class, [
-                'class' => Session::class,
-                'choice_label' => 'title',
-                'choices' => $options['user_sessions_query']
-            ])
+
 
         ;
     }
@@ -34,7 +30,6 @@ class SessionHistoryType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => SessionHistory::class,
-            'user_sessions_query' => [],
         ]);
     }
 }

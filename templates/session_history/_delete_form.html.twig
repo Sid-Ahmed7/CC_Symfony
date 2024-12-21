@@ -1,4 +1,4 @@
-<form method="post" action="{{ path('app_session_history_delete', {'id': session_history.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ session_history.id) }}">
-    <button class="btn">Delete</button>
+<form method="post" action="{{ path('app_session_history_delete', {'id': sessionH.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ sessionH.id) }}">
+    <button class="btn">Supprimer</button>
 </form>

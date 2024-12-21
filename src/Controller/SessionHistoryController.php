@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\SessionHistory;
+
+use App\Repository\SessionRepository;
 use App\Entity\User;
 use App\Form\SessionHistoryType;
 use App\Repository\SessionHistoryRepository;
@@ -34,29 +36,6 @@ final class SessionHistoryController extends AbstractController
     ]);
 }
 
-
-
-    // #[Route('/new', name: 'app_session_history_new', methods: ['GET', 'POST'])]
-    // public function new(Request $request, EntityManagerInterface $entityManager): Response
-    // {
-        
-    //     $sessionHistory = new SessionHistory();
-    //     $form = $this->createForm(SessionHistoryType::class, $sessionHistory);
-    //     $form->handleRequest($request);
-
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $entityManager->persist($sessionHistory);
-    //         $entityManager->flush();
-
-    //         return $this->redirectToRoute('app_session_history_index', [], Response::HTTP_SEE_OTHER);
-    //     }
-
-    //     return $this->render('session_history/new.html.twig', [
-    //         'session_history' => $sessionHistory,
-    //         'form' => $form,
-    //     ]);
-    // }
-
     #[Route('/{id}', name: 'app_session_history_show', methods: ['GET'])]
     public function show(SessionHistory $sessionHistory): Response
     {
@@ -74,7 +53,7 @@ final class SessionHistoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_session_history_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_session_history_user', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('session_history/edit.html.twig', [
@@ -91,6 +70,6 @@ final class SessionHistoryController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_session_history_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_session_history_user', [], Response::HTTP_SEE_OTHER);
     }
 }

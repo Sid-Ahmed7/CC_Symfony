@@ -5,18 +5,15 @@
 {% block content %}
 <section class="max-w-screen-lg mx-auto my-12 p-8 space-y-16 bg-gray-50 rounded-lg">
 
-    <!-- Header Section -->
     <div class="text-center">
         <h1 class="text-5xl font-extrabold text-gray-800">{{ program.name }}</h1>
         <p class="text-lg text-gray-600 mt-4">{{ program.description }}</p>
     </div>
 
-    <!-- Cover Image Section -->
     <div class="mt-12 flex justify-center">
         <img src="{{ program.coverImage }}" alt="{{ program.name }}" class="w-3/4 h-[400px] object-cover rounded-lg shadow-md">
     </div>
 
-    <!-- Key Information Section -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mt-16 text-gray-700">
         <div class="text-center">
             <h3 class="font-bold text-lg text-blue-500">Coach</h3>
@@ -36,7 +33,6 @@
         </div>
     </div>
 
-    <!-- Features Section -->
     <div class="mt-16 bg-white p-8 rounded-lg shadow-md">
         <h3 class="text-3xl font-bold text-gray-800 text-center">Caractéristiques principales</h3>
         <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
@@ -59,7 +55,6 @@
         </div>
     </div>
 
-    <!-- Categories Section -->
     <div class="mt-16">
         <h3 class="text-3xl font-bold text-gray-800 text-center">Catégories</h3>
         <div class="mt-8 flex flex-wrap justify-center gap-4">
@@ -69,7 +64,6 @@
         </div>
     </div>
 
-    <!-- Reviews Section -->
     <div class="mt-16 bg-white p-8 rounded-lg shadow-md">
         <h3 class="text-3xl font-bold text-gray-800 text-center">Avis</h3>
         <div class="mt-8 space-y-6">
@@ -82,13 +76,10 @@
         </div>
     </div>
 
-    <!-- Add Program Button -->
     <div class="mt-16 flex justify-center">
         {% if isChosen %}
-            <!-- Si le programme est déjà choisi, afficher un message -->
             <p class="text-xl font-bold text-green-600">Vous avez déjà choisi ce programme.</p>
         {% else %}
-            <!-- Sinon, afficher le bouton pour ajouter le programme -->
             <form action="{{ path('app_program_add', {'id': program.id}) }}" method="POST">
                 <button type="submit" class="bg-blue-500 text-white py-3 px-8 rounded-full hover:bg-blue-600 transition duration-300">
                     Ajouter ce programme

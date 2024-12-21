@@ -27,13 +27,10 @@ class CoachController extends AbstractController
         $coach = $this->getUser();
 
 
-        // Fetch programs associated with the current coach
         $programs = $programRepository->findBy(['coach' => $coach]);
     
-        // Fetch sessions associated with the current coach
         $sessions = $sessionRepository->findBy(['coach' => $coach]);
     
-        // Render the template and pass the programs and sessions
         return $this->render('coach/coach_show_all.html.twig', [
             'programs' => $programs,
             'sessions' => $sessions,
@@ -101,7 +98,6 @@ class CoachController extends AbstractController
     }
 
 
-    //Gestion des séances
     #[Route('/session/new', name: 'app_session_new', methods: ['GET', 'POST'])]
     public function newSession(Request $request, EntityManagerInterface $entityManager): Response
     {

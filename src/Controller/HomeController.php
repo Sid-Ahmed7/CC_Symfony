@@ -17,30 +17,26 @@ class HomeController extends AbstractController
     {
         $user = $this->getUser(); 
 
-        // Si l'utilisateur n'est ni connecté ni un coach, afficher les programmes les mieux notés et les coachs
         if (!$user) {
-            // Récupérer les programmes les mieux notés avec les catégories
             $programs = $entityManager->getRepository(Program::class)
                 ->createQueryBuilder('p')
-                ->leftJoin('p.reviews', 'r') // Ajouter la jointure avec les avis (reviews)
+                ->leftJoin('p.reviews', 'r') 
                 ->groupBy('p.id')
-                ->orderBy('AVG(r.rating)', 'DESC') // Tri par la note moyenne des avis
-                ->setMaxResults(5) // Afficher les 5 programmes les mieux notés
+                ->orderBy('AVG(r.rating)', 'DESC') 
+                ->setMaxResults(5) 
                 ->getQuery()
                 ->getResult();
 
-            // Récupérer tous les coachs avec leurs spécialisations
+            
             $coaches = $entityManager->getRepository(Coach::class)
                 ->findAll();
 
-            // Retourner une vue avec les programmes, coachs et catégories
             return $this->render('index.html.twig', [
                 'programs' => $programs,
                 'coaches' => $coaches,
             ]);
         }
 
-        // Si l'utilisateur est un coach
         if ($user instanceof Coach) {
             $programs = $entityManager->getRepository(Program::class)
                 ->createQueryBuilder('p')
@@ -60,7 +56,6 @@ class HomeController extends AbstractController
 
 
 
-            // Retourner une vue avec les programmes, sessions, catégories et spécialisations
             return $this->render('coach/index.html.twig', [
                 'programs' => $programs,
                 'sessions' => $sessions,
@@ -68,7 +63,6 @@ class HomeController extends AbstractController
             ]);
         }
 
-        // Si l'utilisateur est un membre (non coach), afficher uniquement ses sessions
         if (!$user instanceof Coach) {
             $sessions = $entityManager->getRepository(Session::class)
                 ->createQueryBuilder('s')
@@ -81,7 +75,6 @@ class HomeController extends AbstractController
                 ->getQuery()
                 ->getResult();
 
-            // Retourner une vue avec les sessions de l'utilisateur
             return $this->render('user/index.html.twig', [
                 'sessions' => $sessions,
             ]);

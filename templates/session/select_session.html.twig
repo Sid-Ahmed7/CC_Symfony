@@ -5,7 +5,6 @@
 {% block content %}
     <h1 class="text-3xl font-semibold text-center text-gray-800 mb-8">Sessions for {{ program.name }}</h1>
 
-    <!-- Affichage des sessions sous forme de liste -->
     {% if sessions|length > 0 %}
         <form method="post">
             <div class="space-y-4">
@@ -18,7 +17,6 @@
                                     <p class="text-sm text-gray-600">{{ session.date|date('d/m/Y H:i') }}</p>
                                 </div>
 
-                                <!-- Bouton pour ajouter la session -->
                                 <button 
                                     type="submit" 
                                     name="session_id" 

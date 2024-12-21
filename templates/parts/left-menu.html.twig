@@ -85,7 +85,6 @@
             </a>
         {% endif %}
 
-        <!-- Déconnexion -->
         <a class="flex items-center space-x-2 py-1 group hover:border-r-4 hover:border-r-red-600 hover:font-semibold" href="{{ path('app_logout') }}">
             <svg class="h-5 w-5 group-hover:fill-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <g>
@@ -95,7 +94,6 @@
             </svg>
             <span>Déconnexion</span>
         </a>
-        <!-- Menu pour les utilisateurs non connectés -->
         {% else %}
             <a href="{{ path('app_login') }}" class="flex items-center space-x-2 py-1 group hover:border-r-4 hover:border-r-red-600 hover:font-semibold">
                 <svg class="h-5 w-5 {% if app.current_route == 'app_login' %}fill-red-600{% else %}fill-black{% endif %}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

@@ -27,10 +27,8 @@ final class SessionHistoryController extends AbstractController
     public function getHistory(SessionHistoryRepository $sessionHistoryRepository): Response
 {
     $user = $this->getUser();
-    // Get the session histories related to the user
     $sessionHistories = $sessionHistoryRepository->findBy(['member' => $user]);
 
-    // Render the template with user and session histories data
     return $this->render('session_history/index.html.twig', [
         'session_histories' => $sessionHistories,
     ]);

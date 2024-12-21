@@ -53,34 +53,33 @@ final class ProgramController extends AbstractController
     
         $programs = $user->getPrograms();
     
-        // Créer un tableau avec l'information des programmes et des sessions
         $programsWithSessions = [];
         foreach ($programs as $program) {
-            $sessionsWithStatus = []; // Tableau des sessions et si l'utilisateur a choisi une session
+            $sessionsWithStatus = []; 
             foreach ($program->getSessions() as $session) {
                 $isChosen = false;
                 
-                // Vérifie si un historique de session existe pour l'utilisateur et cette session
+                
                 $sessionHistory = $sessionHistoryRepo->findOneBy(['member' => $user, 'session' => $session]);
                 
                 if ($sessionHistory) {
-                    $isChosen = true; // L'utilisateur a choisi cette session s'il existe une entrée dans SessionHistory
+                    $isChosen = true; 
                 }
                 
                 $sessionsWithStatus[] = [
                     'session' => $session,
-                    'isChosen' => $isChosen, // Indique si l'utilisateur a choisi cette séance
+                    'isChosen' => $isChosen, 
                 ];
             }
     
             $programsWithSessions[] = [
                 'program' => $program,
-                'sessions' => $sessionsWithStatus, // Ajoute les sessions associées
+                'sessions' => $sessionsWithStatus, 
             ];
         }
     
         return $this->render('user/programs.html.twig', [
-            'programsWithSessions' => $programsWithSessions, // Transmet le tableau avec programmes et sessions
+            'programsWithSessions' => $programsWithSessions, 
         ]);
     }
 
@@ -159,22 +158,22 @@ public function showProgram(int $id, ProgramRepository $programRepository): Resp
             throw $this->createAccessDeniedException('Vous devez être connecté pour choisir une session.');
         }
     
-        // Vérifier si l'utilisateur est inscrit au programme
+      
         if (!$user->getPrograms()->contains($program)) {
             throw $this->createAccessDeniedException('Vous devez être inscrit à ce programme pour choisir une séance.');
         }
     
-        // Récupérer les séances disponibles pour ce programme
+        
         $sessions = $sessionRepo->findBy(['program' => $program]);
     
-        // Filtrer les séances déjà rejointes par l'utilisateur
+        
         $availableSessions = array_filter($sessions, function (Session $session) use ($user) {
             foreach ($session->getSessionHistories() as $history) {
                 if ($history->getMember() === $user) {
-                    return false; // Si l'utilisateur a déjà rejoint cette séance, elle n'est pas disponible
+                    return false;
                 }
             }
-            return true; // Si l'utilisateur n'a pas rejoint la séance, elle est disponible
+            return true; 
         });
     
         return $this->render('session/select_session.html.twig', [

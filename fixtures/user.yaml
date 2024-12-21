@@ -2,27 +2,36 @@ App\Entity\User:
   user_template (template):
     firstName: "<firstName()>"
     lastName: "<lastName()>"
-    email: "email"
-    password: "<password()>"
+    email: "<email()>"
+    plainPassword: "bonjour"
     birthDate: "<dateTime()>"
     weight: "<numberBetween(40, 100)>"
     height: "<numberBetween(120, 200)>"
     profilePicture: "https://picsum.photos/400/550?random=<numberBetween(1, 100)>"
     roles: ['ROLE_USER']
-    gender: !php/const App\Enum\GenderEnum::MALE   
     accountStatus: !php/const App\Enum\UserAccountStatusEnum::ACTIVE
 
-  users_{1..20} (extends user_template):
+  users_{1..10} (extends user_template):
 
   user_admin (extends user_template):
     email: "admin@gmaiL.com"
     password: "jesuisunadministrateur"  
     roles: ['ROLE_ADMIN']
 
-  user_with_program_{1..20} (extends user_template):
-    program: '@program_*'
+  user_with_program_{1..10} (extends user_template):
+    programs: 
+      - '@program_*'
 
-  user_with_coach_{1..20} (extends user_template):
-    coach: '@coach_*'
+  user_with_coach_{1..10} (extends user_template):
+    coachs: 
+      - '@coach_*'
+  
+  user_with_review_{1..10} (extends user_template):
+    reviews: 
+      - '@reviews_*'
+  
+  user_with_session_{1..10} (extends user_template):
+    sessions: 
+      - '@sessions_*'
 
   

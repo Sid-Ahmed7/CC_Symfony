@@ -1,8 +1,7 @@
 App\Entity\Speciality:
- speciality_fitness: 
-  name: "Fitness"
+  speciality_fitness:
+    name: "Fitness"
   speciality_yoga:
     name: "Yoga"
   speciality_nutrition:
     name: "Nutrition"
-

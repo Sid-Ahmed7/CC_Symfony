@@ -1,0 +1,12 @@
+App\Entity\Category:
+  category_fitness:
+    name: 'Fitness'
+  
+  category_yoga:
+    name: 'Yoga'
+        
+  category_nutrition:
+    name: 'Nutrition'
+        
+  category_bienetre:
+    name: 'Bien-être'

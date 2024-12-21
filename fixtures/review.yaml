@@ -1,0 +1,9 @@
+
+App\Entity\Review:
+    reviews_{1..10}:
+        comment: '<sentence()>'
+        rating: '<numberBetween(1, 5)>'
+        createdAt: "<dateTime()>"
+        author: '@users_*'
+        program: '@program_*'
+

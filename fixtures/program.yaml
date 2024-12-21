@@ -1,12 +1,20 @@
 App\Entity\Program:
-  program_{1..20}:
-    name: "Program current()<>"
-    description: "sentece()"
+  program_{1..10}:
+    name: "Program <current()>"
+    description: "<sentence()>"
     createdAt: "<dateTime()>"
     startDate: '<dateTimeBetween("-1 year", "now")>'
     endDate: '<dateTimeBetween("now", "+1 year")>'
+    coverImage: "https://picsum.photos/400/550?random=<numberBetween(1, 100)>"
+    price: <numberBetween(10, 100)>
+    categories: 
+      - "@category_*"
+    difficulty: !php/const App\Enum\DifficultyEnum::HARD
+    reviews: 
+      - "@reviews_*"
     coach: "@coach_*"
     users: 
-    - "@users_*"
-    sessions: "@sessions_*"
+      - "@users_*"
+    sessions: 
+      - "@sessions_*"
 

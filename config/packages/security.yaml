@@ -8,6 +8,13 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
+        app_coach_provider:
+            entity:
+                class: App\Entity\Coach
+                property: email
+        chain_provider:
+            chain:
+                providers: [app_user_provider, app_coach_provider]
         users_in_memory: { memory: null }
     firewalls:
         dev:
@@ -15,7 +22,22 @@ security:
             security: false
         main:
             lazy: true
-            provider: users_in_memory
+            provider: chain_provider
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                enable_csrf: true
+                default_target_path: app_redirect
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
+                # where to redirect after logout
+                # target: app_any_route
+                # where to redirect after logout
+                # target: app_any_route
+                # where to redirect after logout
+                # target: app_any_route
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -30,8 +52,9 @@ security:
         # - { path: ^/profile, roles: ROLE_USER }
     role_hierarchy:
         ROLE_USER: ROLE_USER
-        ROLE_ADMIN: [ROLE_USER, ROLE_ADMIN]
+        ROLE_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_COACH]
         ROLE_BANNED: []
+        ROLE_COACH: ROLE_COACH
 
 when@test:
     security:

@@ -1,0 +1,69 @@
+
+
+    {{ form_start(form, { attr: { class: 'space-y-6' } }) }}
+
+    <div class="space-y-4">
+        <div>
+            {{ form_label(form.name, null, { 'label_attr': { class: 'block text-sm font-medium text-gray-700' } }) }}
+            {{ form_widget(form.name, { 'attr': { class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' } }) }}
+            {{ form_errors(form.name) }}
+        </div>
+
+        <div>
+            {{ form_label(form.description, null, { 'label_attr': { class: 'block text-sm font-medium text-gray-700' } }) }}
+            {{ form_widget(form.description, { 'attr': { class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' } }) }}
+            {{ form_errors(form.description) }}
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                {{ form_label(form.startDate, null, { 'label_attr': { class: 'block text-sm font-medium text-gray-700' } }) }}
+                {{ form_widget(form.startDate, { 'attr': { class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' } }) }}
+                {{ form_errors(form.startDate) }}
+            </div>
+            <div>
+                {{ form_label(form.endDate, null, { 'label_attr': { class: 'block text-sm font-medium text-gray-700' } }) }}
+                {{ form_widget(form.endDate, { 'attr': { class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' } }) }}
+                {{ form_errors(form.endDate) }}
+            </div>
+        </div>
+
+        {# <div>
+            {{ form_label(form.coverImage, null, { 'label_attr': { class: 'block text-sm font-medium text-gray-700' } }) }}
+            {{ form_widget(form.coverImage, { 'attr': { class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' } }) }}
+            {{ form_errors(form.coverImage) }}
+        </div> #}
+
+        <div>
+            {{ form_label(form.difficulty, null, { 'label_attr': { class: 'block text-sm font-medium text-gray-700' } }) }}
+            {{ form_widget(form.difficulty, { 'attr': { class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' } }) }}
+            {{ form_errors(form.difficulty) }}
+        </div>
+
+        <div>
+            {{ form_label(form.price, null, { 'label_attr': { class: 'block text-sm font-medium text-gray-700' } }) }}
+            {{ form_widget(form.price, { 'attr': { class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' } }) }}
+            {{ form_errors(form.price) }}
+        </div>
+
+        <div>
+            {{ form_label(form.coach, null, { 'label_attr': { class: 'block text-sm font-medium text-gray-700' } }) }}
+            {{ form_widget(form.coach, { 'attr': { class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' } }) }}
+            {{ form_errors(form.coach) }}
+        </div>
+
+        <div>
+            {{ form_label(form.categories, null, { 'label_attr': { class: 'block text-sm font-medium text-gray-700' } }) }}
+            {{ form_widget(form.categories, { 'attr': { class: 'mt-1 block w-full' } }) }}
+            {{ form_errors(form.categories) }}
+        </div>
+    </div>
+
+    <div class="text-right">
+        <button type="submit" class="inline-flex justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Ajouter un programme
+        </button>
+    </div>
+
+    {{ form_end(form) }}
+

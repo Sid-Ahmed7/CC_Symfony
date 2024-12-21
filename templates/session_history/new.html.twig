@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New SessionHistory{% endblock %}
+
+{% block content %}
+    <h1>Create new SessionHistory</h1>
+
+    {{ include('session_history/_form.html.twig') }}
+
+    <a href="{{ path('app_session_history_user') }}">back to list</a>
+{% endblock %}

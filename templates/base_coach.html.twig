@@ -4,22 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mon Application{% endblock %}</title>
+    <!-- Lien vers ton CSS ou fichiers externes (ex. Tailwind CSS) -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-gray-100">
-		<div class="flex min-h-screen  2xl:max-w-screen-2xl 2xl:mx-auto 2xl:border-x-2 2xl:border-gray-200">
-		{% include ('parts/left-menu.html.twig') %}
+
+    <div class="flex min-h-screen">
+        {% include ('parts/left-menu.html.twig') %}
+        
         <!-- Contenu principal centré -->
         <div class="flex-1 bg-gray-100 p-6 flex items-center justify-center">
-            			<main class=" flex-1 py-10  px-5 sm:px-10 ">
+            
+            <main class="flex-1 py-10 px-5 sm:px-10">
 
+               
                 {% block content %}
-
                 {% endblock %}
+
             </main>
+
         </div>
     </div>
+
+
 </body>
 
 </html>

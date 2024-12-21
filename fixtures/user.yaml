@@ -30,8 +30,5 @@ App\Entity\User:
     reviews: 
       - '@reviews_*'
   
-  user_with_session_{1..10} (extends user_template):
-    sessions: 
-      - '@sessions_*'
 
   

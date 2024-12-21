@@ -1,0 +1,25 @@
+<!-- templates/session/show.html.twig -->
+
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>{{ session.title }}</h1>
+    <p>{{ session.description }}</p>
+    <p>Date: {{ session.date|date('Y-m-d H:i') }}</p>
+    <p>Location: {{ session.location }}</p>
+    <a href="{{ path('app_session_history_new', {'id': session.id}) }}" class="btn btn-primary">Add History</a>
+
+    <h2>Session History</h2>
+    <ul>
+        {% for history in session.sessionHistories %}
+            <li>
+                <p>{{ history.sessionDate|date('Y-m-d H:i') }}: {{ history.goals }}</p>
+                <a href="{{ path('app_session_history_edit', {'sessionId': session.id, 'historyId': history.id}) }}">Edit</a> |
+                <form action="{{ path('app_session_history_delete', {'sessionId': session.id, 'historyId': history.id}) }}" method="POST" style="display:inline;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ history.id) }}">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

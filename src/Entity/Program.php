@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\DifficultyEnum;
 use App\Repository\ProgramRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -47,10 +48,33 @@ class Program
     #[ORM\OneToMany(targetEntity: Session::class, mappedBy: 'program')]
     private Collection $sessions;
 
+    #[ORM\Column(length: 255)]
+    private ?string $coverImage = null;
+
+    /**
+     * @var Collection<int, Category>
+     */
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'programs')]
+    private Collection $categories;
+
+    #[ORM\Column(enumType: DifficultyEnum::class)]
+    private ?DifficultyEnum $difficulty = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $price = null;
+
+    /**
+     * @var Collection<int, Review>
+     */
+    #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'program')]
+    private Collection $reviews;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->sessions = new ArrayCollection();
+        $this->categories = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -183,4 +207,95 @@ class Program
 
         return $this;
     }
+
+    public function getCoverImage(): ?string
+    {
+        return $this->coverImage;
+    }
+
+    public function setCoverImage(string $coverImage): static
+    {
+        $this->coverImage = $coverImage;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Category>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): static
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): static
+    {
+        $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    public function getDifficulty(): ?DifficultyEnum
+    {
+        return $this->difficulty;
+    }
+
+    public function setDifficulty(DifficultyEnum $difficulty): static
+    {
+        $this->difficulty = $difficulty;
+
+        return $this;
+    }
+
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+    public function setPrice(string $price): static
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): static
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews->add($review);
+            $review->setProgram($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): static
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getProgram() === $this) {
+                $review->setProgram(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

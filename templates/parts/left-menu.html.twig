@@ -1,0 +1,111 @@
+<aside class="w-1/6 py-10 pl-10 min-w-min border-r border-gray-300 hidden md:block">
+    <div class="font-bold text-lg flex items-center gap-x-3">
+        <div class="tracking-wide">Coach<span class="text-red-600">.</span></div>
+    </div>
+
+    <!-- Menu -->
+    <div class="mt-12 flex flex-col gap-y-4 text-gray-500 fill-gray-500 text-sm">
+        <div class="text-gray-400/70 font-medium uppercase">Menu</div>
+
+        <a href="{{ path('app_home') }}" class="flex items-center space-x-2 py-1 font-semibold border-r-4 border-r-red-600 pr-20">
+            <svg class="h-5 w-5 {% if app.current_route == 'app_home' %}fill-red-600{% else %}fill-black{% endif %}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M5 22h14v0c1.1 0 2-.9 2-2v-9 0c0-.27-.11-.53-.29-.71l-8-8v0c-.4-.39-1.02-.39-1.41 0l-8 8h0c-.2.18-.3.44-.3.71v9 0c0 1.1.89 2 2 2Zm5-2v-5h4v5Zm-5-8.59l7-7 7 7V20h-3v-5 0c0-1.11-.9-2-2-2h-4v0c-1.11 0-2 .89-2 2v5H5Z"></path>
+            </svg>
+            <span>Accueil</span>
+        </a>
+
+        <!-- Menu spécifique au coach et administrateur -->
+        {# {% if is_granted('ROLE_COACH') or is_granted('ROLE_ADMIN') %} #}
+            <a href="{{ path('app_program_index') }}" class="flex items-center space-x-2 py-1 group hover:border-r-4 hover:border-r-red-600 hover:font-semibold">
+                <svg class="h-5 w-5 group-hover:fill-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <g>
+                        <path d="M16 13v-2H7V8l-5 4 5 4v-3Z"></path>
+                        <path d="M20 3h-9c-1.11 0-2 .89-2 2v4h2V5h9v14h-9v-4H9v4c0 1.1.89 2 2 2h9c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2Z"></path>
+                    </g>
+                </svg>
+                <span>Programmes Disponibles</span>
+            </a>
+        {# {% endif %} #}
+
+        <!-- Menu spécifique à l'utilisateur -->
+        {% if app.user %}
+            <a class="flex items-center space-x-2 py-1 group hover:border-r-4 hover:border-r-red-600 hover:font-semibold" href="{{ path('app_user_programs') }}">
+                <svg class="h-5 w-5 group-hover:fill-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <g>
+                        <path d="M16 13v-2H7V8l-5 4 5 4v-3Z"></path>
+                        <path d="M20 3h-9c-1.11 0-2 .89-2 2v4h2V5h9v14h-9v-4H9v4c0 1.1.89 2 2 2h9c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2Z"></path>
+                    </g>
+                </svg>
+                <span>Mes Programmes</span>
+            </a>
+            
+            <a class="flex items-center space-x-2 py-1 group hover:border-r-4 hover:border-r-red-600 hover:font-semibold" href="{{ path('app_session_history_user') }}">
+                <svg class="h-5 w-5 group-hover:fill-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <g>
+                        <path d="M16 13v-2H7V8l-5 4 5 4v-3Z"></path>
+                        <path d="M20 3h-9c-1.11 0-2 .89-2 2v4h2V5h9v14h-9v-4H9v4c0 1.1.89 2 2 2h9c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2Z"></path>
+                    </g>
+                </svg>
+                <span>Suivi des séances</span>
+            </a>
+     
+
+ {% if is_granted('ROLE_COACH') %}
+    <a class="flex items-center space-x-2 py-1 group hover:border-r-4 hover:border-r-red-600 hover:font-semibold" href="{{ path('app_program_show_all') }}">
+        <svg class="h-5 w-5 group-hover:fill-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <g>
+                <path d="M16 13v-2H7V8l-5 4 5 4v-3Z"></path>
+                <path d="M20 3h-9c-1.11 0-2 .89-2 2v4h2V5h9v14h-9v-4H9v4c0 1.1.89 2 2 2h9c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2Z"></path>
+            </g>
+        </svg>
+        <span>Gestion des Programmes</span>
+    </a>
+
+{% endif %}
+
+        <!-- Menu spécifique à l'administrateur -->
+        {% if is_granted('ROLE_ADMIN') %}
+            <a class="flex items-center space-x-2 py-1 group hover:border-r-4 hover:border-r-red-600 hover:font-semibold" href="{{ path('app_admin_user_management') }}">
+                <svg class="h-5 w-5 group-hover:fill-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <g>
+                        <path d="M16 13v-2H7V8l-5 4 5 4v-3Z"></path>
+                        <path d="M20 3h-9c-1.11 0-2 .89-2 2v4h2V5h9v14h-9v-4H9v4c0 1.1.89 2 2 2h9c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2Z"></path>
+                    </g>
+                </svg>
+                <span>Gestion des utilisateurs</span>
+            </a>
+            <a class="flex items-center space-x-2 py-1 group hover:border-r-4 hover:border-r-red-600 hover:font-semibold" href="{{ path('app_admin_program_management') }}">
+                <svg class="h-5 w-5 group-hover:fill-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <g>
+                        <path d="M16 13v-2H7V8l-5 4 5 4v-3Z"></path>
+                        <path d="M20 3h-9c-1.11 0-2 .89-2 2v4h2V5h9v14h-9v-4H9v4c0 1.1.89 2 2 2h9c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2Z"></path>
+                    </g>
+                </svg>
+                <span>Gestion des programmes</span>
+            </a>
+        {% endif %}
+
+        <!-- Déconnexion -->
+        <a class="flex items-center space-x-2 py-1 group hover:border-r-4 hover:border-r-red-600 hover:font-semibold" href="{{ path('app_logout') }}">
+            <svg class="h-5 w-5 group-hover:fill-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <g>
+                    <path d="M16 13v-2H7V8l-5 4 5 4v-3Z"></path>
+                    <path d="M20 3h-9c-1.11 0-2 .89-2 2v4h2V5h9v14h-9v-4H9v4c0 1.1.89 2 2 2h9c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2Z"></path>
+                </g>
+            </svg>
+            <span>Déconnexion</span>
+        </a>
+        <!-- Menu pour les utilisateurs non connectés -->
+        {% else %}
+            <a href="{{ path('app_login') }}" class="flex items-center space-x-2 py-1 group hover:border-r-4 hover:border-r-red-600 hover:font-semibold">
+                <svg class="h-5 w-5 {% if app.current_route == 'app_login' %}fill-red-600{% else %}fill-black{% endif %}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <g>
+                        <path d="M16 13v-2H7V8l-5 4 5 4v-3Z"></path>
+                        <path d="M20 3h-9c-1.11 0-2 .89-2 2v4h2V5h9v14h-9v-4H9v4c0 1.1.89 2 2 2h9c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2Z"></path>
+                    </g>
+                </svg>
+                <span>Connexion</span>
+            </a>
+        {% endif %}
+    </div>
+</aside>

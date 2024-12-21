@@ -31,6 +31,9 @@ class SessionHistory
     #[ORM\JoinColumn(nullable: false)]
     private ?User $member = null;
 
+    #[ORM\Column]
+    private ?bool $isCancelled = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,6 +95,18 @@ class SessionHistory
     public function setMember(?User $member): static
     {
         $this->member = $member;
+
+        return $this;
+    }
+
+    public function isCancelled(): ?bool
+    {
+        return $this->isCancelled;
+    }
+
+    public function setCancelled(bool $isCancelled): static
+    {
+        $this->isCancelled = $isCancelled;
 
         return $this;
     }

@@ -1,0 +1,108 @@
+{% extends 'base_coach.html.twig' %}
+
+{% block title %}Bienvenue Coach{% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-8 text-gray-800">Gestion des Programmes et Sessions</h1>
+
+    <!-- Bouton Ajouter Programme -->
+    <div class="mb-4 flex justify-end">
+        <a href="{{ path('app_program_new') }}" 
+           class="inline-flex items-center px-6 py-2 text-white bg-green-600 hover:bg-green-800 transition duration-300 ease-in-out transform hover:scale-105 rounded-lg">
+            Ajouter un Programme
+        </a>
+    </div>
+
+    <!-- Tableau des Programmes -->
+    <div class="overflow-x-auto shadow-lg rounded-lg mb-8">
+        <table class="min-w-full bg-white border border-gray-200 rounded-md">
+            <thead class="bg-indigo-600 text-white">
+                <tr>
+                    <th class="px-6 py-4 text-left">Nom du Programme</th>
+                    <th class="px-6 py-4 text-left">Description</th>
+                    <th class="px-6 py-4 text-left">Date de début</th>
+                    <th class="px-6 py-4 text-left">Date de fin</th>
+                    <th class="px-6 py-4 text-left">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for program in programs %}
+                <tr class="border-b hover:bg-gray-100">
+                    <td class="px-6 py-4">{{ program.name }}</td>
+                    <td class="px-6 py-4">{{ program.description }}</td>
+                    <td class="px-6 py-4">{{ program.startDate|date('d/m/Y') }}</td>
+                    <td class="px-6 py-4">{{ program.endDate|date('d/m/Y') }}</td>
+                    <td class="px-6 py-4">
+                        <div class="flex space-x-4 justify-start">
+                            <a href="{{ path('app_program_edit', {'id': program.id}) }}" 
+                               class="inline-flex items-center px-4 py-2 text-white bg-indigo-600 hover:bg-indigo-800 transition duration-300 ease-in-out transform hover:scale-105 rounded-lg">
+                                Modifier
+                            </a>
+                            {% include ('program/_delete_form.html.twig') %}
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="px-6 py-4 text-center text-gray-500">Aucun programme disponible</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <!-- Tableau des Sessions -->
+    <h2 class="text-2xl font-semibold mb-6 text-gray-800">Sessions Associées</h2>
+        <!-- Bouton Ajouter Session -->
+    <div class="mb-4 flex justify-end">
+        <a href="{{ path('app_session_new') }}" 
+           class="inline-flex items-center px-6 py-2 text-white bg-green-600 hover:bg-green-800 transition duration-300 ease-in-out transform hover:scale-105 rounded-lg">
+            Ajouter une Session
+        </a>
+    </div>
+    <div class="overflow-x-auto shadow-lg rounded-lg">
+        <table class="min-w-full bg-white border border-gray-200 rounded-md">
+            <thead class="bg-indigo-600 text-white">
+                <tr>
+                    <th class="px-6 py-4 text-left">Nom de la Session</th>
+                    <th class="px-6 py-4 text-left">Programme</th>
+                    <th class="px-6 py-4 text-left">Date</th>
+                    <th class="px-6 py-4 text-left">Participants</th>
+                    <th class="px-6 py-4 text-left">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for session in sessions %}
+                <tr class="border-b hover:bg-gray-100">
+                    <td class="px-6 py-4">{{ session.title }}</td>
+                    <td class="px-6 py-4">{{ session.program.name }}</td>
+                    <td class="px-6 py-4">{{ session.date|date('d/m/Y H:i') }}</td>
+                    <td class="px-6 py-4">
+                        <span class="font-semibold">{{ session.members|length }}</span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex space-x-4 justify-start">
+                            <a href="{{ path('app_session_edit', {'id': session.id}) }}" 
+                               class="inline-flex items-center px-4 py-2 text-white bg-indigo-600 hover:bg-indigo-800 transition duration-300 ease-in-out transform hover:scale-105 rounded-lg">
+                                Modifier
+                            </a>
+                            <a href="{{ path('app_session_delete', {'id': session.id}) }}" 
+                               class="inline-flex items-center px-4 py-2 text-white bg-red-600 hover:bg-red-800 transition duration-300 ease-in-out transform hover:scale-105 rounded-lg">
+                                Supprimer
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="px-6 py-4 text-center text-gray-500">Aucune session disponible</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

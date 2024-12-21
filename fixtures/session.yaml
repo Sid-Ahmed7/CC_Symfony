@@ -6,8 +6,6 @@ App\Entity\Session:
     duration: "<numberBetween(5, 250)> "
     location: "Paris"
     program: '@program_*'
-    members: 
-      - '@users_*'
     coach: '@coach_*'
     sessionHistories: 
       - '@sessionHistory_*'

@@ -1,22 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Bienvenue sur l'Application Coaching Pro{% endblock %}
+{% block title %}Bienvenue sur Coaching Pro{% endblock %}
 
 {% block content %}
-    <div class="container mx-auto px-4 py-8">
-        <section class="welcome-section mb-12 text-center">
-            <h1 class="text-4xl font-extrabold text-gray-800 mb-4">Bienvenue sur Coaching Pro!</h1>
-            <p class="text-xl text-gray-600">La meilleure application pour trouver des coachs qualifiés et des programmes sur mesure.</p>
+    <div class="container mx-auto px-8 py-16 bg-gray-50">
+        <section class="welcome-section mb-16 text-center bg-white p-10 rounded-lg shadow-md">
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">Bienvenue sur Coaching Pro!</h1>
+            <p class="text-xl text-gray-600">Réalisez vos objectifs grâce à l'accompagnement d'experts.</p>
         </section>
 
-
-        <section class="programs-section mb-12">
-            <h2 class="text-3xl font-bold text-center mb-8 text-blue-600">Les programmes les mieux notés</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <section class="programs-section mb-16">
+            <h2 class="text-3xl font-bold text-center mb-8 text-indigo-700">Les programmes les mieux notés</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 {% for program in programs %}
-                    <div class="program bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="program bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
                         <div class="relative rounded-lg overflow-hidden">
-                            <img src="{{ program.coverImage }}" alt="Image de couverture" class="w-full h-40 object-cover rounded-t-lg">
+                            <img src="{{ program.coverImage }}" alt="Image de couverture" class="w-full h-48 object-cover rounded-t-lg">
                         </div>
                         <div class="mt-4">
                             <h3 class="text-xl font-semibold text-gray-800">{{ program.name }}</h3>
@@ -27,13 +26,13 @@
             </div>
         </section>
 
-        <section class="coaches-section mb-12">
-            <h2 class="text-3xl font-bold text-center mb-8 text-green-600">Nos Coachs</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <section class="coaches-section mb-16">
+            <h2 class="text-3xl font-bold text-center mb-8 text-indigo-700">Nos Coachs</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                 {% for coach in coaches %}
-                    <div class="coach bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div class="flex items-center space-x-4">
-                            <img src="{{ coach.profilePicture }}" alt="Image de profil" class="w-16 h-16 rounded-full border-2 border-gray-300">
+                    <div class="coach bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
+                        <div class="flex items-center space-x-6">
+                            <img src="{{ coach.profilePicture }}" alt="Image de profil" class="w-20 h-20 rounded-full border-4 border-indigo-700">
                             <div>
                                 <h3 class="text-xl font-semibold text-gray-800">{{ coach.firstName }} {{ coach.lastName }}</h3>
                                 <p class="text-gray-600 mt-2">{{ coach.bio }}</p>

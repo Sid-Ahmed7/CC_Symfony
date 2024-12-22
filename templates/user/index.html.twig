@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tableau de bord de Coaching{% endblock %}
+{% block title %}Tableau de bord{% endblock %}
 
 {% block content %}
-    <h1 class="text-3xl font-bold text-gray-800">Bienvenue</h1>
+    <h1 class="text-3xl font-bold text-gray-800">Bienvenue {{user.firstName}} {{user.lastName}}</h1>
 
     {% if is_granted('ROLE_USER') %}
         <section class="mt-12">
@@ -15,13 +15,16 @@
                             <h3 class="text-2xl font-semibold text-white">{{ session.title }}</h3>
                             <p class="text-gray-200 mt-2">Votre prochaine session est prévue le {{ session.date|date('d/m/Y H:i') }}.</p>
                             <p class="text-gray-200 mt-2">Durée : {{ session.duration }} minutes</p>
+
+
+
                             <div class="mt-4">
                                 <a href="{{ path('app_session_show', {'id': session.id}) }}" class="text-white font-medium hover:underline">Voir les détails</a>
                             </div>
                         </div>
                     {% endfor %}
                 {% else %}
-                    <div class="p-6 rounded-xl shadow-lg">
+                    <div class="p-6 rounded-xl shadow-lg bg-gray-100">
                         <p class="text-gray-900">Aucune session en cours pour le moment.</p>
                     </div>
                 {% endif %}
@@ -29,5 +32,4 @@
         </section>
     {% endif %}
 
-    
 {% endblock %}

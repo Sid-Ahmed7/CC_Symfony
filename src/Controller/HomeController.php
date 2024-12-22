@@ -43,8 +43,11 @@ class HomeController extends AbstractController
 
         if (!$user instanceof Coach) {
             $sessions = $sessionRepository->findSessionsByUser($user, 2);
+            $programs = $programRepository->findLastProgramsByUser($user);
+
 
             return $this->render('user/index.html.twig', [
+                'programs' => $programs,
                 'sessions' => $sessions,
                 'user' => $user,
             ]);

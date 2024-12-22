@@ -47,13 +47,13 @@ class Coach implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Program>
      */
-    #[ORM\OneToMany(targetEntity: Program::class, mappedBy: 'coach', cascade: ['remove'])]
+    #[ORM\OneToMany(targetEntity: Program::class, mappedBy: 'coach')]
     private Collection $programs;
 
     /**
      * @var Collection<int, Session>
      */
-    #[ORM\OneToMany(targetEntity: Session::class, mappedBy: 'coach',  cascade: ['remove'])]
+    #[ORM\OneToMany(targetEntity: Session::class, mappedBy: 'coach')]
     private Collection $sessions;
 
     /**

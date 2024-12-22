@@ -3,7 +3,7 @@ App\Entity\Coach:
     firstName: "<firstName()>"
     lastName: "<lastName()>"
     email: "<email()>"
-    plainPassword: "salut"
+    plainPassword: "jesuiscoach"
     phone: "01-02-03-04-05"
     bio: "<sentence()>"
     profilePicture: "https://picsum.photos/400/550?random=<numberBetween(1, 100)>"

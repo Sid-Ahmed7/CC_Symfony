@@ -67,4 +67,16 @@ public function findLatestPrograms($limit = 5): array
         ->getQuery()
         ->getResult();
 }
+
+public function findLastProgramsByUser($user): array
+{
+    return $this->createQueryBuilder('p')
+        ->where(':user MEMBER OF p.users')  
+        ->setParameter('user', $user)
+        ->orderBy('p.id', 'DESC')  
+        ->setMaxResults(5)
+        ->getQuery()
+        ->getResult();
+}
+
 }

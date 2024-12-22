@@ -3,7 +3,7 @@
 {% block title %}Tableau de bord{% endblock %}
 
 {% block content %}
-    <h1 class="text-3xl font-bold text-gray-800">Bienvenue {{user.firstName}} {{user.lastName}}</h1>
+    <h1 class="text-3xl font-bold text-gray-800">Bienvenue {{ user.firstName }} {{ user.lastName }}</h1>
 
     {% if is_granted('ROLE_USER') %}
         <section class="mt-12">
@@ -15,8 +15,6 @@
                             <h3 class="text-2xl font-semibold text-white">{{ session.title }}</h3>
                             <p class="text-gray-200 mt-2">Votre prochaine session est prévue le {{ session.date|date('d/m/Y H:i') }}.</p>
                             <p class="text-gray-200 mt-2">Durée : {{ session.duration }} minutes</p>
-
-
 
                             <div class="mt-4">
                                 <a href="{{ path('app_session_show', {'id': session.id}) }}" class="text-white font-medium hover:underline">Voir les détails</a>
@@ -30,6 +28,29 @@
                 {% endif %}
             </div>
         </section>
-    {% endif %}
 
+        <section class="mt-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">Vos 5 Derniers Programmes</h2>
+            <div class="grid gap-6 md:grid-cols-2">
+                {% if programs is not empty %}
+                    {% for program in programs %}
+                        <div class="bg-gradient-to-r from-green-500 to-teal-500 p-6 rounded-xl shadow-lg transform transition duration-300 hover:scale-105">
+                            <h3 class="text-2xl font-semibold text-white">{{ program.name }}</h3>
+                            <p class="text-gray-200 mt-2">Description : {{ program.description }}</p>
+                            <p class="text-gray-200 mt-2">Date de création : {{ program.createdAt|date('d/m/Y') }}</p>
+
+                            <div class="mt-4">
+                                <a href="{{ path('app_program_show', {'id': program.id}) }}" class="text-white font-medium hover:underline">Voir les détails</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="p-6 rounded-xl shadow-lg bg-gray-100">
+                        <p class="text-gray-900">Aucun programme trouvé.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+
+    {% endif %}
 {% endblock %}

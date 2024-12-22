@@ -17,7 +17,7 @@
                 <a href="{{ path('app_session_history_edit', {'sessionId': session.id, 'historyId': history.id}) }}">Edit</a> |
                 <form action="{{ path('app_session_history_delete', {'sessionId': session.id, 'historyId': history.id}) }}" method="POST" style="display:inline;">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ history.id) }}">
-                    <button type="submit">Delete</button>
+                    <button type="submit">Supprimer</button>
                 </form>
             </li>
         {% endfor %}

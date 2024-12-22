@@ -69,7 +69,7 @@ class ProfileController extends AbstractController
             
             if ($newPassword && $newPassword !== $confirmPassword) {
                 $this->addFlash('error', 'Les mots de passe ne correspondent pas.');
-                return $this->redirectToRoute('app_edit_coach_profile');
+                return $this->redirectToRoute('app_edit_user_profile');
             }
 
             if ($newPassword) {

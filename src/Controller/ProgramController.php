@@ -48,7 +48,7 @@ final class ProgramController extends AbstractController
         $user = $this->getUser();
     
         if (!$user) {
-            throw $this->createAccessDeniedException('Vous devez être connecté pour accéder à cette page.');
+            return $this->redirectToRoute('app_login');
         }
     
         $programs = $user->getPrograms();
@@ -91,7 +91,8 @@ public function showProgram(int $id, ProgramRepository $programRepository): Resp
     $program = $programRepository->find($id);
 
     if (!$program) {
-        throw $this->createNotFoundException('Le programme n\'existe pas.');
+        $this->addFlash('danger', 'Le programme n\'existe pas.');
+        return $this->redirectToRoute(route: 'app_program_index');
     }
 
     $user = $this->getUser();
@@ -120,7 +121,9 @@ public function showProgram(int $id, ProgramRepository $programRepository): Resp
     
 
         if (!$program) {
-            throw $this->createNotFoundException('Le programme n\'existe pas.');
+            $this->addFlash('danger', 'Le programme n\'existe pas.');
+            return $this->redirectToRoute(route: 'app_program_index');
+
         }
     
         $user = $this->getUser();
@@ -133,7 +136,7 @@ public function showProgram(int $id, ProgramRepository $programRepository): Resp
         }
     
      
-        return $this->redirectToRoute('app_user_programs');
+        return $this->redirectToRoute(route: 'app_user_programs');
     }
 
  
@@ -149,13 +152,16 @@ public function showProgram(int $id, ProgramRepository $programRepository): Resp
         $program = $programRepo->find($id);
     
         if (!$program) {
-            throw $this->createNotFoundException('Le programme n\'existe pas.');
+            $this->addFlash('danger', 'Le programme n\'existe pas.');
+            return $this->redirectToRoute(route: 'app_program_index');
+
+
         }
     
         $user = $this->getUser();
     
         if (!$user) {
-            throw $this->createAccessDeniedException('Vous devez être connecté pour choisir une session.');
+            return $this->redirectToRoute('app_login');
         }
     
       
@@ -197,7 +203,10 @@ public function showProgram(int $id, ProgramRepository $programRepository): Resp
     
        
         if (!$program) {
-            throw $this->createNotFoundException('Le programme n\'existe pas.');
+            $this->addFlash('danger', 'Le programme n\'existe pas.');
+            return $this->redirectToRoute(route: 'app_program_index');
+
+
         }
     
        
@@ -205,7 +214,8 @@ public function showProgram(int $id, ProgramRepository $programRepository): Resp
     
         
         if (!$session) {
-            throw $this->createNotFoundException('La session n\'existe pas.');
+            $this->addFlash('danger', 'La session n\'existe pas.');
+
         }
     
         
@@ -213,7 +223,7 @@ public function showProgram(int $id, ProgramRepository $programRepository): Resp
     
        
         if (!$user) {
-            throw $this->createAccessDeniedException('Vous devez être connecté pour rejoindre une session.');
+            return $this->redirectToRoute('app_login');
         }
     
         

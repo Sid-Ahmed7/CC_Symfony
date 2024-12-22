@@ -1,6 +1,6 @@
 App\Entity\Session:
   sessions_{1..10}:
-    title: "Session <current()>"
+    title: "Seance <current()>"
     description: "<sentence()>"
     date: "<dateTimeBetween('-2 years', '+2 years')>"
     duration: "<numberBetween(5, 250)> "

@@ -9,22 +9,25 @@
             <p class="text-xl text-gray-600">Réalisez vos objectifs grâce à l'accompagnement d'experts.</p>
         </section>
 
-        <section class="programs-section mb-16">
-            <h2 class="text-3xl font-bold text-center mb-8 text-indigo-700">Les programmes les mieux notés</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                {% for program in programs %}
-                    <div class="program bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-                        <div class="relative rounded-lg overflow-hidden">
-                            <img src="{{ program.coverImage }}" alt="Image de couverture" class="w-full h-48 object-cover rounded-t-lg">
-                        </div>
-                        <div class="mt-4">
-                            <h3 class="text-xl font-semibold text-gray-800">{{ program.name }}</h3>
-                            <p class="text-gray-600 mt-2">{{ program.description }}</p>
-                        </div>
-                    </div>
-                {% endfor %}
+<section class="programs-section mb-16">
+    <h2 class="text-3xl font-bold text-center mb-8 text-indigo-700">Les programmes les mieux notés</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        {% for program in programs %}
+            <div class="program bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
+                <div class="relative rounded-lg overflow-hidden">
+                    <img src="{{ program.coverImage }}" alt="Image de couverture" class="w-full h-48 object-cover rounded-t-lg">
+                </div>
+                <div class="mt-4">
+                    <a href="{{ path('app_program_show', { 'id': program.id }) }}" class="text-xl font-semibold text-gray-800 hover:text-indigo-700">
+                        {{ program.name }}
+                    </a>
+                    <p class="text-gray-600 mt-2">{{ program.description }}</p>
+                </div>
             </div>
-        </section>
+        {% endfor %}
+    </div>
+</section>
+
 
         <section class="coaches-section mb-16">
             <h2 class="text-3xl font-bold text-center mb-8 text-indigo-700">Nos Coachs</h2>

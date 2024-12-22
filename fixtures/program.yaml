@@ -1,6 +1,6 @@
 App\Entity\Program:
   program_{1..10}:
-    name: "Program <current()>"
+    name: "Programme <current()>"
     description: "<sentence()>"
     createdAt: "<dateTime()>"
     startDate: '<dateTimeBetween("-1 year", "now")>'

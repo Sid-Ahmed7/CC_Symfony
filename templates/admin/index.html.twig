@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard Admin{% endblock %}
+
+{% block body %}
+ <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <div class="bg-white shadow-lg rounded-lg p-6">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Derniers Utilisateurs</h2>
+                        <ul class="space-y-4">
+                            {% for user in users %}
+                                <li class="flex items-center justify-between">
+                                    <span class="font-medium text-gray-700">{{ user.firstName }} {{ user.lastName }}</span>
+                                    <span class="text-sm text-gray-500">{{ user.email }}</span>
+                                </li>
+                            {% else %}
+                                <li class="text-gray-500">Aucun utilisateur trouvé.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="bg-white shadow-lg rounded-lg p-6">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Derniers Coachs</h2>
+                        <ul class="space-y-4">
+                            {% for coach in coachs %}
+                                <li class="flex items-center justify-between">
+                                    <span class="font-medium text-gray-700">{{ coach.firstName }} {{ coach.lastName }}</span>
+                                    <span class="text-sm text-gray-500">{{ coach.email }}</span>
+                                </li>
+                            {% else %}
+                                <li class="text-gray-500">Aucun coach trouvé.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base_auth.html.twig' %}
+
+{% block title %}Réinitialisation du mot de passe{% endblock %}
+
+{% block content %}
+
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+    <h2 class="text-2xl font-semibold text-center text-gray-800">Réinitialiser votre mot de passe</h2>
+    <p class="text-center text-gray-600 mb-6">Entrez un nouveau mot de passe.</p>
+    
+    <form  method="post" action="{{ path('app_reset_password', {'token': resetPasswordToken}) }}">
+          <div class="mb-4">
+        <label for="password" class="block text-sm font-medium text-gray-700">Adresse Email</label>
+        <input type="password" id="email" name="_email" required placeholder="Adresse Email"
+          class="w-full p-3 mt-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+      </div>
+      <div class="mb-4">
+        <label for="password" class="block text-sm font-medium text-gray-700">Nouveau mot de passe</label>
+        <input type="password" id="password" name="_password" required placeholder="Entrez votre nouveau mot de passe"
+          class="w-full p-3 mt-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+      </div>
+
+      <div class="mb-4">
+        <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirmer le mot de passe</label>
+        <input type="password" id="repeat-password" name="_repeat-password" required placeholder="Confirmer le mot de passe"
+          class="w-full p-3 mt-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+      </div>
+
+      <div class="mb-6">
+        <button type="submit"
+          class="w-full bg-indigo-600 text-white py-3 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          Changer votre mot de passe
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

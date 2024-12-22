@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier mon profil{% endblock %}
+
+{% block content %}
+  <div class="container mx-auto py-12">
+    <div class="w-full max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg space-y-8">
+      <h2 class="text-3xl font-semibold text-center text-gray-800">Modifier mon profil</h2>
+
+      {{ form_start(form) }}
+
+      <div class="mb-6">
+        {{ form_row(form.firstName, {
+          'attr': {'class': 'w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600'}
+        }) }}
+      </div>
+
+      <div class="mb-6">
+        {{ form_row(form.lastName, {
+          'attr': {'class': 'w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600'}
+        }) }}
+      </div>
+
+      <div class="mb-6">
+        {{ form_row(form.email, {
+          'attr': {'class': 'w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600'}
+        }) }}
+      </div>
+
+      <div class="mb-6">
+        {{ form_row(form.phone, {
+          'attr': {'class': 'w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600'}
+        }) }}
+      </div>
+
+      <div class="mb-6">
+        {{ form_row(form.bio, {
+          'attr': {'class': 'w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600'}
+        }) }}
+      </div>
+
+      <div class="mb-6">
+        {{ form_row(form.specialities, {
+          'attr': {'class': 'w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600'}
+        }) }}
+      </div>
+
+      <div class="mb-6">
+        {{ form_row(form.profilePicture, {
+          'attr': {'class': 'w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600'}
+        }) }}
+      </div>
+
+      <div class="mb-6">
+        <label for="newPassword" class="block text-gray-700">Nouveau mot de passe (facultatif)</label>
+        <input type="password" name="newPassword" id="newPassword" class="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600" placeholder="Laissez vide si vous ne souhaitez pas changer le mot de passe">
+      </div>
+
+      <div class="mb-6">
+        <label for="confirmPassword" class="block text-gray-700">Confirmer le mot de passe</label>
+        <input type="password" name="confirmPassword" id="confirmPassword" class="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600" placeholder="Confirmez votre nouveau mot de passe">
+      </div>
+
+      <div class="text-center mt-8">
+        <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          Enregistrer les modifications
+        </button>
+      </div>
+
+      {{ form_end(form) }}
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,105 @@
+{{ form_start(form, {'enctype': 'multipart/form-data'}) }}
+    <div class="mb-4">
+        {{ form_label(form.name, 'Nom du programme', {'label_class': 'text-sm font-semibold'}) }}
+        <div>
+            {{ form_widget(form.name, {
+                'attr': {'class': 'w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}
+            }) }}
+        </div>
+        {{ form_errors(form.name) }}
+    </div>
+
+    <div class="mb-4">
+        {{ form_label(form.description, 'Description', {'label_class': 'text-sm font-semibold'}) }}
+        <div>
+            {{ form_widget(form.description, {
+                'attr': {'class': 'w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}
+            }) }}
+        </div>
+        {{ form_errors(form.description) }}
+    </div>
+
+    <div class="mb-4">
+        {{ form_label(form.startDate, 'Date de début', {'label_class': 'text-sm font-semibold'}) }}
+        <div>
+            {{ form_widget(form.startDate, {
+                'attr': {'class': 'w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}
+            }) }}
+        </div>
+        {{ form_errors(form.startDate) }}
+    </div>
+
+    <div class="mb-4">
+        {{ form_label(form.endDate, 'Date de fin', {'label_class': 'text-sm font-semibold'}) }}
+        <div>
+            {{ form_widget(form.endDate, {
+                'attr': {'class': 'w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}
+            }) }}
+        </div>
+        {{ form_errors(form.endDate) }}
+    </div>
+
+    <div class="mb-4">
+        {{ form_label(form.difficulty, 'Difficulté', {'label_class': 'text-sm font-semibold'}) }}
+        <div>
+            {{ form_widget(form.difficulty, {
+                'attr': {'class': 'w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}
+            }) }}
+        </div>
+        {{ form_errors(form.difficulty) }}
+    </div>
+
+    <div class="mb-4">
+        {{ form_label(form.price, 'Prix', {'label_class': 'text-sm font-semibold'}) }}
+        <div>
+            {{ form_widget(form.price, {
+                'attr': {'class': 'w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}
+            }) }}
+        </div>
+        {{ form_errors(form.price) }}
+    </div>
+
+    <div class="mb-4">
+        {{ form_label(form.coach, 'Coach', {'label_class': 'text-sm font-semibold'}) }}
+        <div>
+            {{ form_widget(form.coach, {
+                'attr': {'class': 'w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}
+            }) }}
+        </div>
+        {{ form_errors(form.coach) }}
+    </div>
+
+    <div class="mb-4">
+        {{ form_label(form.users, 'Utilisateurs', {'label_class': 'text-sm font-semibold'}) }}
+        <div>
+            {{ form_widget(form.users, {
+                'attr': {'class': 'w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}
+            }) }}
+        </div>
+        {{ form_errors(form.users) }}
+    </div>
+
+    <div class="mb-6">
+        {{ form_label(form.categories, 'Catégories', {'label_class': 'text-sm font-semibold'}) }}
+        <div>
+            {{ form_widget(form.categories, {
+                'attr': {'class': 'w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}
+            }) }}
+        </div>
+        {{ form_errors(form.categories) }}
+    </div>
+
+    <div class="mb-4">
+        {{ form_label(form.coverImage, 'Image de couverture', {'label_class': 'text-sm font-semibold'}) }}
+        <div>
+            {{ form_widget(form.coverImage, {
+                'attr': {'class': 'w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}
+            }) }}
+        </div>
+        {{ form_errors(form.coverImage) }}
+    </div>
+
+    <div class="mb-4 text-right">
+        <button type="submit" class="bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600">Enregistrer</button>
+    </div>
+{{ form_end(form) }}

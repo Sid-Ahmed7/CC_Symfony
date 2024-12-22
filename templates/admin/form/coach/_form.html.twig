@@ -1,0 +1,107 @@
+
+    {{ form_start(form) }}
+        <div class="mb-4">
+            {{ form_label(form.firstName, 'Prénom', {'label_class': 'text-sm font-semibold'}) }}
+            <div>
+                {{ form_widget(form.firstName, {
+                    'attr': {'class': 'w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}
+                }) }}
+            </div>
+            {{ form_errors(form.firstName) }}
+        </div>
+
+        <div class="mb-4">
+            {{ form_label(form.lastName, 'Nom', {'label_class': 'text-sm font-semibold'}) }}
+            <div>
+                {{ form_widget(form.lastName, {
+                    'attr': {'class': 'w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}
+                }) }}
+            </div>
+            {{ form_errors(form.lastName) }}
+        </div>
+
+        <div class="mb-4">
+            {{ form_label(form.email, 'Email', {'label_class': 'text-sm font-semibold'}) }}
+            <div>
+                {{ form_widget(form.email, {
+                    'attr': {'class': 'w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}
+                }) }}
+            </div>
+            {{ form_errors(form.email) }}
+        </div>
+
+        <div class="mb-4">
+            {{ form_label(form.password, 'Mot de passe', {'label_class': 'text-sm font-semibold'}) }}
+            <div>
+                {{ form_widget(form.password, {
+                    'attr': {'class': 'w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}
+                }) }}
+            </div>
+            {{ form_errors(form.password) }}
+        </div>
+
+        <div class="mb-4">
+            {{ form_label(form.phone, 'Numéro de téléphone', {'label_class': 'text-sm font-semibold'}) }}
+            <div>
+                {{ form_widget(form.phone, {
+                    'attr': {'class': 'w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}
+                }) }}
+            </div>
+            {{ form_errors(form.phone) }}
+        </div>
+
+        <div class="mb-4">
+            {{ form_label(form.bio, 'Biographie', {'label_class': 'text-sm font-semibold'}) }}
+            <div>
+                {{ form_widget(form.bio, {
+                    'attr': {'class': 'w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}
+                }) }}
+            </div>
+            {{ form_errors(form.bio) }}
+        </div>
+
+        <div class="mb-4">
+            {{ form_label(form.profilePicture, 'Photo de profil', {'label_class': 'text-sm font-semibold'}) }}
+            <div>
+                {{ form_widget(form.profilePicture, {
+                    'attr': {'class': 'w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}
+                }) }}
+            </div>
+            {{ form_errors(form.profilePicture) }}
+        </div>
+
+        <div class="mb-4">
+            {{ form_label(form.rating, 'Note', {'label_class': 'text-sm font-semibold'}) }}
+            <div>
+                {{ form_widget(form.rating, {
+                    'attr': {'class': 'w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}
+                }) }}
+            </div>
+            {{ form_errors(form.rating) }}
+        </div>
+
+        <div class="mb-4">
+            {{ form_label(form.users, 'Utilisateurs', {'label_class': 'text-sm font-semibold'}) }}
+            <div>
+                {{ form_widget(form.users, {
+                    'attr': {'class': 'w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}
+                }) }}
+            </div>
+            {{ form_errors(form.users) }}
+        </div>
+
+        <div class="mb-6">
+            {{ form_label(form.specialities, 'Spécialités', {'label_class': 'text-sm font-semibold'}) }}
+            <div>
+                {{ form_widget(form.specialities, {
+                    'attr': {'class': 'w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}
+                }) }}
+            </div>
+            {{ form_errors(form.specialities) }}
+        </div>
+
+        <div class="mb-4 text-right">
+            <button type="submit" class="bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600">Enregistrer</button>
+        </div>
+    {{ form_end(form) }}
+

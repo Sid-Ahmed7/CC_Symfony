@@ -8,5 +8,6 @@ enum SessionStatusEnum: string
 {
     case INPROGRESS = 'inProgress';
     case COMPLETED = 'completed';
+    case SHORTLY = 'shortly';
     case CANCELLED = 'cancelled';
 }

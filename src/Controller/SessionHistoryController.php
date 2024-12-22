@@ -10,11 +10,14 @@ use App\Form\SessionHistoryType;
 use App\Repository\SessionHistoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/session/history')]
+#[IsGranted(attribute: 'ROLE_USER')]
+
 final class SessionHistoryController extends AbstractController
 {
     // #[Route(name: 'app_session_history_index', methods: ['GET'])]

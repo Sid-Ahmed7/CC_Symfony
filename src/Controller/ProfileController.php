@@ -8,7 +8,6 @@ use App\Service\FileUploader;
 use App\Form\EditCoachProfileType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,8 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProfileController extends AbstractController
 {
     
-
-
     #[Route('/profile', name: 'app_user_profile')]
     #[IsGranted('ROLE_USER')]
     public function userProfile(): Response

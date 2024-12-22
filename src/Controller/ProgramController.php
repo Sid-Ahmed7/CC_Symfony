@@ -108,7 +108,7 @@ public function showProgram(int $id, ProgramRepository $programRepository): Resp
 }
 
     #[Route('/program/{id}/add', name: 'app_program_add', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted(attribute: 'ROLE_USER')]
     public function addProgram(
         ProgramRepository $programRepo, 
         EntityManagerInterface $entityManager, 

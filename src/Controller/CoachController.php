@@ -19,10 +19,10 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
 #[Route('/coach')]
+#[IsGranted('ROLE_COACH')]
 class CoachController extends AbstractController
 {
     #[Route('/program/show', name: 'app_program_show_all', methods: ['GET'])]
-    #[IsGranted('ROLE_COACH')]
     public function showAddProgram(ProgramRepository $programRepository, Sessionrepository $sessionRepository): Response
     {
         $coach = $this->getUser();
@@ -39,7 +39,6 @@ class CoachController extends AbstractController
     }
     
     #[Route('/program/new', name: 'app_program_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_COACH')]
     public function new(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -72,7 +71,6 @@ class CoachController extends AbstractController
     
 
     #[Route('/program/{id}/edit', name: 'app_program_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_COACH')]
     public function edit(Request $request, Program $program, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(ProgramType::class, $program);
@@ -98,7 +96,6 @@ class CoachController extends AbstractController
     }
 
     #[Route('/program/{id}', name: 'app_program_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_COACH')]
     public function delete(Request $request, Program $program, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {

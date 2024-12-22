@@ -12,11 +12,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Service\FileUploader;
 
 class RegisterController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, FileUploader $fileUploader, EntityManagerInterface $entityManager): Response
     {
         if ($this->getUser()) {
             return $this->redirectToRoute('app_home');
@@ -29,10 +30,15 @@ class RegisterController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             
             $user->setPlainPassword($form->get('password')->getData());
-            $randomNumber = rand(1, 100); 
-            $user->setProfilePicture("https://picsum.photos/400/550?random=$randomNumber");
+            
             $user->setRoles(['ROLE_USER']);
             $user->setAccountStatus(UserAccountStatusEnum::ACTIVE);
+            $uploadedFile = $form->get('profilePicture')->getData();
+            
+            if ($uploadedFile) {
+                $newFilename = $fileUploader->upload($uploadedFile, '/profile_pictures');
+                $user->setProfilePicture($newFilename);
+            }
             $entityManager->persist($user);
             $entityManager->flush();
             return $this->redirectToRoute('app_login');

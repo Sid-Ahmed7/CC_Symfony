@@ -6,34 +6,32 @@ use App\Entity\User;
 use App\Entity\Coach;
 use App\Entity\Program;
 use App\Entity\Session;
-use App\Entity\SessionHistory;
 use App\Repository\UserRepository;
 use App\Repository\CoachRepository;
 use App\Repository\ProgramRepository;
 use App\Repository\SessionRepository;
-use App\Repository\SessionHistoryRepository;
 use App\Enum\UserAccountStatusEnum; 
 use App\Form\Admin\AdminCoachType;
 use App\Form\Admin\AdminUserType;
 use App\Form\Admin\AdminSessionType;
 use App\Form\Admin\AdminProgramType;
-use App\Form\Admin\AdminSessionHistoryType;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-
 use App\Service\FileUploader;
 
+#[Route('/admin')]
+#[IsGranted('ROLE_ADMIN')]
 class AdminProgramsSessionController extends AbstractController
 {
-    #[Route('/admin/gestion/programs', name: 'app_admin_programs')]
+    #[Route('/gestion/programs', name: 'app_admin_programs') ]
     public function gestionPrograms(
         EntityManagerInterface $entityManager, 
         ProgramRepository $programRepository, 
         SessionRepository $sessionRepository,
-        SessionHistoryRepository $sessionHistoryRepository,
         Request $request
     ): Response {
 
@@ -43,15 +41,12 @@ class AdminProgramsSessionController extends AbstractController
     
         $currentPage = $request->query->getInt('page', 1);
         $currentPageSession = $request->query->getInt('pageSession', 1);
-        $currentPageSessionHistory = $request->query->getInt('pageSessionHistory', 1);
         
         $offset = ($currentPage - 1) * $pageSize;
         $offsetSession = ($currentPageSession - 1) * $pageSize;
-        $offsetSessionHistory = ($currentPageSessionHistory - 1) * $pageSize;
 
         $programs = $programRepository->findBy([], null, $pageSize, $offset);
         $sessions = $sessionRepository->findBy([], null, $pageSize, $offsetSession);
-        $sessionHistories = $sessionHistoryRepository->findBy([], null, $pageSize, $offsetSessionHistory);
 
         $totalPrograms = $programRepository->count([]);
         $totalPages = ceil($totalPrograms / $pageSize);
@@ -59,148 +54,155 @@ class AdminProgramsSessionController extends AbstractController
         $totalSessions = $sessionRepository->count([]);
         $totalPagesSession = ceil($totalSessions / $pageSize);
 
-        $totalSessionHistories = $sessionHistoryRepository->count([]);
-        $totalPagesSessionHistories = ceil($totalSessionHistories / $pageSize);
+
         return $this->render('admin/admin_programs.html.twig', [
             'programs' => $programs,
             'sessions' => $sessions,
-            'sessionHistories' => $sessionHistories,
             'currentPage' => $currentPage,
             'totalPages' => $totalPages,
             'currentPageSession' => $currentPageSession,
             'totalPagesSession' => $totalPagesSession,
-            'currentPageSessionHistory' => $currentPageSessionHistory,
-            'totalPagesSessionHistories' => $totalPagesSessionHistories,
         ]);
     }
 
-//Add a new Program
-#[Route('/admin/gestion/programs/new', name: 'app_admin_new_program')]
-public function newProgram(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
-{
-    $program = new Program();
-    $form = $this->createForm(AdminProgramType::class, $program);
-    $form->handleRequest($request);
+    #[Route('/gestion/programs/new', name: 'app_admin_new_program', methods: ['GET', 'POST'])]
+    public function newProgram(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
+    {
+        $program = new Program();
+        $form = $this->createForm(AdminProgramType::class, $program);
+        $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        $program->setCreatedAt(new \DateTimeImmutable());
-        $uploadedFile = $form->get('coverImage')->getData();
-        if ($uploadedFile) {
-            $newFilename = $fileUploader->upload($uploadedFile, '/program_pictures');
-            $program->setCoverImage($newFilename);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $program->setCreatedAt(new \DateTimeImmutable());
+            $uploadedFile = $form->get('coverImage')->getData();
+            if ($uploadedFile) {
+                $newFilename = $fileUploader->upload($uploadedFile, '/program_pictures');
+                $program->setCoverImage($newFilename);
+            }
+            $entityManager->persist($program);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_admin_programs', [], Response::HTTP_SEE_OTHER);
         }
-        $entityManager->persist($program);
-        $entityManager->flush();
 
-        return $this->redirectToRoute('app_admin_programs');
+        return $this->render('admin/form/program/new.html.twig', [
+            'form' => $form,
+        ]);
     }
 
-    return $this->render('admin/form/program/new.html.twig', [
-        'form' => $form->createView(),
-    ]);
-}
-//Edit a Program
-#[Route('/admin/gestion/programs/edit/{id}', name: 'app_admin_edit_program')]
-public function editProgram(Request $request, EntityManagerInterface $entityManager, Program $program, FileUploader $fileUploader): Response
-{
-    $form = $this->createForm(ProgramType::class, $program);
-    $form->handleRequest($request);
+    #[Route('/gestion/programs/edit/{id}', name: 'app_admin_program_edit', methods: ['GET', 'POST'])]
+    public function editProgram(Request $request, EntityManagerInterface $entityManager, Program $program, FileUploader $fileUploader): Response
+    {
+        $form = $this->createForm(AdminProgramType::class, $program);
+        $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        $uploadedFile = $form->get('programPicture')->getData();
-        if ($uploadedFile) {
-            $newFilename = $fileUploader->upload($uploadedFile, '/program_pictures');
-            $program->setProgramPicture($newFilename);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $uploadedFile = $form->get('coverImage')->getData();
+            if ($uploadedFile) {
+                $newFilename = $fileUploader->upload($uploadedFile, '/program_pictures');
+                $program->setCoverImage($newFilename);
+            }
+            $entityManager->persist($program);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_admin_programs', [], Response::HTTP_SEE_OTHER);
         }
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_programs_index');
+        return $this->render('admin/form/program/edit.html.twig', [
+            'form' => $form,
+            'program' => $program,
+        ]);
     }
-    return $this->render('admin/edit_program.html.twig', [
-        'form' => $form->createView(),
-        'program' => $program,
-    ]);
-}
-//Delete a Program
-#[Route('/admin/gestion/programs/delete/{id}', name: 'app_admin_delete_program')]
-public function deleteProgram(Program $program, EntityManagerInterface $entityManager): Response
-{
-    $entityManager->remove($program);
-    $entityManager->flush();
 
-    return $this->redirectToRoute('app_programs_index');
-}
+    #[Route('/gestion/programs/delete/{id}', name: 'app_admin_program_delete', methods: ['POST'])]
+    public function deleteProgram(Request $request,Program $program, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {
+            $reviews = $program->getReviews();
 
-//Add Session
-#[Route('/admin/gestion/programs/add_session/{id}', name: 'app_admin_add_session')]
-public function addSession(Program $program, EntityManagerInterface $entityManager): Response
-{
-    $session = new Session();
-    $session->setProgram($program);
-    $entityManager->persist($session);
-    $entityManager->flush();
+            foreach ($reviews as $review) {
+                $entityManager->remove($review);
+            }
 
-    return $this->redirectToRoute('app_programs_index');
-}
-//Edit Session
-#[Route('/admin/gestion/programs/edit_session/{id}', name: 'app_admin_edit_session')]
-public function editSession(Session $session, EntityManagerInterface $entityManager): Response
-{
-    $form = $this->createForm(SessionType::class, $session);
-    $form->handleRequest($request);
-    if ($form->isSubmitted() && $form->isValid()) {
-        $entityManager->flush();
-        return $this->redirectToRoute('app_programs_index');
+            foreach ($program->getSessions() as $session) {
+                $sessionHistories = $session->getSessionHistories();
+                foreach ($sessionHistories as $history) {
+                    $entityManager->remove($history); 
+                }
+    
+                $entityManager->remove($session); 
+            }
+    
+         
+           
+            $entityManager->remove($program);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_admin_programs', [], Response::HTTP_SEE_OTHER);
     }
-    return $this->render('admin/programs/edit_session.html.twig', [
-        'form' => $form->createView(),
-    ]);
-}
-//Delete Session
-#[Route('/admin/gestion/programs/delete_session/{id}', name: 'app_admin_delete_session')]
-public function deleteSession(Session $session, EntityManagerInterface $entityManager): Response
-{
-    $entityManager->remove($session);
-    $entityManager->flush();
 
-    return $this->redirectToRoute('app_programs_index');
+    //Session 
 
+    #[Route('/gestion/session/new', name: 'app_admin_new_session', methods: ['GET', 'POST'])]
+    public function addSession(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $programs = $entityManager->getRepository(Program::class)->findAll();
 
-}
+        $session = new Session();
+        
+        $form = $this->createForm(AdminSessionType::class, $session, [
+            'programs' => $programs, 
+        ]);
 
-//Add SessionHistory
+        $form->handleRequest($request);
 
-#[Route('/admin/gestion/programs/add_session_history/{id}', name: 'app_admin_add_session_history')]
-public function addSessionHistory(Program $program, EntityManagerInterface $entityManager): Response
-{
-    $session = new Session();
-    $session->setProgram($program);
-    $entityManager->persist($session);
-    $entityManager->flush();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $session->setProgram($form->get('program')->getData());
+            $entityManager->persist($session);
+            $entityManager->flush();
 
-    return $this->redirectToRoute('app_programs_index');    
-}
-//Edit SessionHistory
-#[Route('/admin/gestion/programs/edit_session_history/{id}', name: 'app_admin_edit_session_history')]
-public function editSessionHistory(SessionHistory $sessionHistory, EntityManagerInterface $entityManager): Response
-{
-    $form = $this->createForm(SessionHistoryType::class, $sessionHistory);
-    $form->handleRequest($request);
-    if ($form->isSubmitted() && $form->isValid()) {
-        $entityManager->flush();
-        return $this->redirectToRoute('app_programs_index');
+            return $this->redirectToRoute('app_admin_programs', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('admin/form/session/new.html.twig', [
+            'form' => $form,
+        ]);
     }
-    return $this->render('admin/programs/edit_session_history.html.twig', [
-        'form' => $form->createView(),
-    ]);
-}
-//Delete SessionHistory
-#[Route('/admin/gestion/programs/delete_session_history/{id}', name: 'app_admin_delete_session_history')]
-public function deleteSessionHistory(SessionHistory $sessionHistory, EntityManagerInterface $entityManager): Response
-{
-    $entityManager->remove($sessionHistory);
-    $entityManager->flush();
 
-    return $this->redirectToRoute('app_programs_index');
-}
+    #[Route('/gestion/session/edit/{id}', name: 'app_admin_session_edit', methods: ['GET', 'POST'])]
+    public function editSession(Request $request,Session $session, EntityManagerInterface $entityManager): Response
+    {
+
+        $programs = $entityManager->getRepository(Program::class)->findAll();
+
+        $form = $this->createForm(AdminSessionType::class, $session, [
+            'programs' => $programs,
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($session); 
+            $entityManager->flush();
+            return $this->redirectToRoute('app_admin_programs', [], Response::HTTP_SEE_OTHER);
+        }
+        return $this->render('admin/form/session/edit.html.twig',[
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/gestion/session/delete/{id}', name: 'app_admin_session_delete')]
+    public function deleteSession(Request $request, Session $session, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$session->getId(), $request->get('_token'))) {
+
+            foreach ($session->getSessionHistories() as $history) {
+                $entityManager->remove($history); 
+            }
+
+            $entityManager->remove($session);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_admin_programs', [], Response::HTTP_SEE_OTHER);
+    }
+
 }

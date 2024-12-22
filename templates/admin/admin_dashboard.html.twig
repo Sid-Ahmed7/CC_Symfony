@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard Admin{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <div class="bg-gray-100 shadow p-4 rounded-lg mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Bienvenue, {{ admin.firstName }} !</h1>
+        <p class="text-gray-600">Voici un aperçu de l'activité récente de la plateforme.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Derniers Utilisateurs</h2>
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="py-2 px-4 border-b">Nom</th>
+                        <th class="py-2 px-4 border-b">Email</th>
+                        <th class="py-2 px-4 border-b">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td class="py-2 px-4 border-b">{{ user.firstName }} {{ user.lastName }}</td>
+                            <td class="py-2 px-4 border-b">{{ user.email }}</td>
+                            <td class="py-2 px-4 border-b">
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3" class="py-2 px-4 text-gray-500 text-center">Aucun utilisateur trouvé.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="mt-4">
+                <a href="{{ path('app_admin_users') }}" class="text-blue-500 hover:underline">Voir tout</a>
+            </div>
+        </div>
+
+        <!-- Tableau des derniers coachs -->
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Derniers Coachs</h2>
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="py-2 px-4 border-b">Nom</th>
+                        <th class="py-2 px-4 border-b">Email</th>
+                        <th class="py-2 px-4 border-b">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for coach in coachs %}
+                        <tr>
+                            <td class="py-2 px-4 border-b">{{ coach.firstName }} {{ coach.lastName }}</td>
+                            <td class="py-2 px-4 border-b">{{ coach.email }}</td>
+                            <td class="py-2 px-4 border-b">
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3" class="py-2 px-4 text-gray-500 text-center">Aucun coach trouvé.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="mt-4">
+                <a href="{{ path('app_admin_users') }}" class="text-blue-500 hover:underline">Voir tout</a>
+            </div>
+        </div>
+
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Derniers Programmes</h2>
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="py-2 px-4 border-b">Nom</th>
+                        <th class="py-2 px-4 border-b">Date</th>
+                        <th class="py-2 px-4 border-b">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for program in programs %}
+                        <tr>
+                            <td class="py-2 px-4 border-b">{{ program.name }}</td>
+                            <td class="py-2 px-4 border-b">{{ program.createdAt|date('d/m/Y') }}</td>
+                            <td class="py-2 px-4 border-b">
+                                {# <a href="{{ path('programme_details', { id: programme.id }) }}" class="text-blue-500 hover:underline">Voir</a> #}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3" class="py-2 px-4 text-gray-500 text-center">Aucun programme trouvé.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="mt-4">
+                {# <a href="{{ path('programmes_list') }}" class="text-blue-500 hover:underline">Voir tout</a> #}
+            </div>
+        </div>
+
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Dernières Séances</h2>
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="py-2 px-4 border-b">Nom</th>
+                        <th class="py-2 px-4 border-b">Date</th>
+                        <th class="py-2 px-4 border-b">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for session in sessions %}
+                        <tr>
+                            <td class="py-2 px-4 border-b">{{ session.title }}</td>
+                            <td class="py-2 px-4 border-b">{{ session.date|date('d/m/Y') }}</td>
+                            <td class="py-2 px-4 border-b">
+                                {# <a href="{{ path('seance_details', { id: seance.id }) }}" class="text-blue-500 hover:underline">Voir</a> #}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3" class="py-2 px-4 text-gray-500 text-center">Aucune séance trouvée.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="mt-4">
+                {# <a href="{{ path('seances_list') }}" class="text-blue-500 hover:underline">Voir tout</a> #}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

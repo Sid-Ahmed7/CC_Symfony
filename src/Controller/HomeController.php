@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\Coach;
 use App\Entity\Program;
 use App\Entity\Session;
+use App\Repository\ProgramRepository;
+use App\Repository\SessionRepository;
+use App\Repository\CoachRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,23 +16,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, ProgramRepository $programRepository, CoachRepository $coachRepository, SessionRepository $sessionRepository): Response
     {
         $user = $this->getUser(); 
 
         if (!$user) {
-            $programs = $entityManager->getRepository(Program::class)
-                ->createQueryBuilder('p')
-                ->leftJoin('p.reviews', 'r') 
-                ->groupBy('p.id')
-                ->orderBy('AVG(r.rating)', 'DESC') 
-                ->setMaxResults(5) 
-                ->getQuery()
-                ->getResult();
-
-            
-            $coaches = $entityManager->getRepository(Coach::class)
-                ->findAll();
+            $programs = $programRepository->findTopRatedPrograms(5);
+            $coaches = $coachRepository->findAll();
 
             return $this->render('index.html.twig', [
                 'programs' => $programs,
@@ -38,23 +31,8 @@ class HomeController extends AbstractController
         }
 
         if ($user instanceof Coach) {
-            $programs = $entityManager->getRepository(Program::class)
-                ->createQueryBuilder('p')
-                ->where('p.coach = :user')
-                ->setParameter('user', $user)
-                ->getQuery()
-                ->getResult();
-
-            $sessions = $entityManager->getRepository(Session::class)
-                ->createQueryBuilder('s')
-                ->innerJoin('s.program', 'p')
-                ->where('p.coach = :user')
-                ->setParameter('user', $user)
-                ->orderBy('s.date', 'DESC')
-                ->getQuery()
-                ->getResult();
-
-
+            $programs = $programRepository->findProgramsByCoach($user);
+            $sessions = $sessionsRepository->findSessionsByCoach($user);
 
             return $this->render('coach/index.html.twig', [
                 'programs' => $programs,
@@ -64,19 +42,11 @@ class HomeController extends AbstractController
         }
 
         if (!$user instanceof Coach) {
-            $sessions = $entityManager->getRepository(Session::class)
-                ->createQueryBuilder('s')
-                ->innerJoin('s.sessionHistories', 'sh')
-                ->innerJoin('sh.member', 'm')
-                ->where('m = :user')
-                ->setParameter('user', $user)
-                ->orderBy('s.date', 'DESC')
-                ->setMaxResults(2)
-                ->getQuery()
-                ->getResult();
+            $sessions = $sessionRepository->findSessionsByUser($user, 2);
 
             return $this->render('user/index.html.twig', [
                 'sessions' => $sessions,
+                'user' => $user,
             ]);
         }
 

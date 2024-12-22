@@ -40,4 +40,23 @@ class ProgramRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+public function findTopRatedPrograms(int $limit = 5): array
+{
+    return $this->createQueryBuilder('p')
+        ->leftJoin('p.reviews', 'r') 
+        ->groupBy('p.id') 
+        ->orderBy('AVG(r.rating)', 'DESC') 
+        ->setMaxResults($limit) 
+        ->getQuery()
+        ->getResult();
+}
+
+public function findProgramsByCoach($coach): array
+{
+    return $this->createQueryBuilder('p')
+        ->where('p.coach = :coach')
+        ->setParameter('coach', $coach)
+        ->getQuery()
+        ->getResult();
+}
 }

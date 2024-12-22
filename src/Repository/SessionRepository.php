@@ -40,13 +40,27 @@ class SessionRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-public function findByUser(User $user): array
-{
-    return $this->createQueryBuilder('s')
-        ->innerJoin('s.members', 'u') // Assuming 'members' is the relation between sessions and users
-        ->andWhere('u.id = :userId')
-        ->setParameter('userId', $user->getId())
-        ->getQuery()
-        ->getResult();
-}
+    public function findSessionsByCoach($coach): array
+    {
+        return $this->createQueryBuilder('s')
+            ->innerJoin('s.program', 'p')
+            ->where('p.coach = :coach')
+            ->setParameter('coach', $coach)
+            ->orderBy('s.date', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findSessionsByUser($user, $limit = 2): array
+    {
+        return $this->createQueryBuilder('s')
+            ->innerJoin('s.sessionHistories', 'sh')
+            ->innerJoin('sh.member', 'm')
+            ->where('m = :user')
+            ->setParameter('user', $user)
+            ->orderBy('s.date', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }

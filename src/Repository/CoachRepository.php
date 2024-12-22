@@ -40,4 +40,13 @@ class CoachRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+public function findLatestCoaches($limit = 5): array
+{
+    return $this->createQueryBuilder('c')
+        ->orderBy('c.id', 'DESC')
+        ->setMaxResults($limit)
+        ->getQuery()
+        ->getResult();
+}
 }

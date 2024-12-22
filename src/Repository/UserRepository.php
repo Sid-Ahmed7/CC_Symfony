@@ -40,4 +40,12 @@ class UserRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+public function findLatestUsers($limit = 5): array
+{
+    return $this->createQueryBuilder('u')
+        ->orderBy('u.id', 'DESC')
+        ->setMaxResults($limit)
+        ->getQuery()
+        ->getResult();
+}
 }

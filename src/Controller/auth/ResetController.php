@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\auth;
+namespace App\Controller\Auth;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,7 +32,6 @@ class ResetController extends AbstractController
         if ($coach) {
             return $this->resetPassword($coach, $request, $entityManager, $passwordHasher);
         }
-
         
         if ($user) {
             return $this->resetPassword($user, $request, $entityManager, $passwordHasher);
@@ -40,7 +39,7 @@ class ResetController extends AbstractController
 
         
         $this->addFlash('error', 'Token invalide');
-        return $this->redirectToRoute('forgot_password');
+        return $this->redirectToRoute('app_forgot_password');
     }
 
     private function resetPassword($entity, Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
@@ -56,7 +55,7 @@ class ResetController extends AbstractController
 
 
             $entity->setPlainPassword($newPassword);
-            $entity->setResetPasswordToken(""); 
+            $entity->setResetToken(""); 
 
             $entityManager->persist($entity);
             $entityManager->flush();
@@ -66,8 +65,9 @@ class ResetController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('reset/index.html.twig', [
+        return $this->render('reset/reset.html.twig', [
             'resetToken' => $request->get('token'),
+            'entity' => $entity
         ]);
     }
 }

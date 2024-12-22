@@ -29,18 +29,17 @@ class Mailer
      */
     public function sendResetPasswordEmail($entity): void
     {
-        // Vérifier que l'entité est soit un User, soit un Coach
         if (!$entity instanceof User && !$entity instanceof Coach) {
             throw new \InvalidArgumentException('L\'entité doit être de type User ou Coach.');
         }
 
         if($entity instanceof Coach) {
-            $resetUrl = $this->router->generate('app_reset', ['token' => $entity->getResetPasswordToken()], UrlGeneratorInterface::ABSOLUTE_URL);
+            $resetUrl = $this->router->generate('app_reset_password', ['token' => $entity->getResetToken()], UrlGeneratorInterface::ABSOLUTE_URL);
         }
         else {
-            $resetUrl = $this->router->generate('app_reset', ['token' => $entity->getResetPasswordToken()], UrlGeneratorInterface::ABSOLUTE_URL);
+            $resetUrl = $this->router->generate('app_reset_password', ['token' => $entity->getResetToken()], UrlGeneratorInterface::ABSOLUTE_URL);
         }
-        $expirationDate = new \DateTime('+7 days');
+        $expirationDate = new \DateTime('+1 days');
 
        
         $email = (new Email())

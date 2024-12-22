@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\auth;
+namespace App\Controller\Auth;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +30,7 @@ class ForgotController extends AbstractController
             if ($coach) {
     
                 $resetToken = Uuid::v4()->toRfc4122();
-                $coach->setResetPasswordToken($resetToken);
+                $coach->setResetToken($resetToken);
                 $entityManager->flush();
                 $mailer->sendResetPasswordEmail($coach);
                 $this->addFlash('success', 'Un email de réinitialisation a été envoyé.');
@@ -41,7 +41,7 @@ class ForgotController extends AbstractController
             if ($user) {
      
                 $resetToken = Uuid::v4()->toRfc4122();
-                $user->setResetPasswordToken($resetToken);
+                $user->setResetToken($resetToken);
                 $entityManager->flush();
                 $mailer->sendResetPasswordEmail($user);
                 $this->addFlash('success', 'Un email de réinitialisation a été envoyé.');
@@ -52,7 +52,7 @@ class ForgotController extends AbstractController
             return $this->redirectToRoute('app_forgot');
 }
         
-        return $this->render('forgot/index.html.twig');
+        return $this->render('forgot/forgot.html.twig');
     }
 
 }

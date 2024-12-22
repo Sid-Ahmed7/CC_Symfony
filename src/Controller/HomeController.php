@@ -32,7 +32,7 @@ class HomeController extends AbstractController
 
         if ($user instanceof Coach) {
             $programs = $programRepository->findProgramsByCoach($user);
-            $sessions = $sessionsRepository->findSessionsByCoach($user);
+            $sessions = $sessionRepository->findSessionsByCoach($user);
 
             return $this->render('coach/index.html.twig', [
                 'programs' => $programs,

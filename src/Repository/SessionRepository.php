@@ -63,4 +63,12 @@ class SessionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findLatestSessions($limit = 5): array
+{
+    return $this->createQueryBuilder('s')
+        ->orderBy('s.id', 'DESC')
+        ->setMaxResults($limit)
+        ->getQuery()
+        ->getResult();
+}
 }

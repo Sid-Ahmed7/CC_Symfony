@@ -31,18 +31,23 @@ class SecurityController extends AbstractController
     }
 
     #[Route(path: '/redirect', name: 'app_redirect')]
-        public function redirectAfterLogin(): Response
+    public function redirectAfterLogin(): Response
     {
-    $user = $this->getUser();
-
-    if (in_array('ROLE_COACH', $user->getRoles())) {
+        $user = $this->getUser();
+    
+        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+            return $this->redirectToRoute('app_admin');
+        }
+    
+        if (in_array('ROLE_COACH', $user->getRoles())) {
+            return $this->redirectToRoute('app_home');
+        }
+    
+        if (in_array('ROLE_USER', $user->getRoles())) {
+            return $this->redirectToRoute('app_home');
+        }
+    
         return $this->redirectToRoute('app_home');
     }
-
-    if (in_array('ROLE_USER', $user->getRoles())) {
-        return $this->redirectToRoute('app_home');
-    }
-
-    return $this->redirectToRoute('app_home');
-}
+    
 }

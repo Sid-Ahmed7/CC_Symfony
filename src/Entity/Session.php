@@ -56,7 +56,6 @@ class Session
     private Collection $members;
 
 
-
     public function __construct()
     {
         $this->sessionHistories = new ArrayCollection();
@@ -217,5 +216,6 @@ class Session
 
         return $this;
     }
+
 
 }

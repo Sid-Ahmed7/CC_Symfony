@@ -11,10 +11,11 @@ App\Entity\User:
     roles: ['ROLE_USER']
     accountStatus: !php/const App\Enum\UserAccountStatusEnum::ACTIVE
 
+
   users_{1..10} (extends user_template):
 
   user_admin (extends user_template):
-    email: "admin@gmaiL.com"
+    email: "admin@gmail.com"
     password: "jesuisunadministrateur"  
     roles: ['ROLE_ADMIN']
 
@@ -29,6 +30,10 @@ App\Entity\User:
   user_with_review_{1..10} (extends user_template):
     reviews: 
       - '@reviews_*'
+
+  user_with_session_{1..10} (extends user_template):
+    sessions:
+      - '@sessions_*'
   
 
   

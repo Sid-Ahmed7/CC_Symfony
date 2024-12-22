@@ -7,6 +7,8 @@ App\Entity\Session:
     location: "Paris"
     program: '@program_*'
     coach: '@coach_*'
+    members: 
+      - '@users_*'
     sessionHistories: 
       - '@sessionHistory_*'
     status: !php/const App\Enum\SessionStatusEnum::INPROGRESS

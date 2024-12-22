@@ -52,7 +52,7 @@ security:
         # - { path: ^/profile, roles: ROLE_USER }
     role_hierarchy:
         ROLE_USER: ROLE_USER
-        ROLE_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_COACH]
+        ROLE_ADMIN: [ROLE_ADMIN, ROLE_USER, ROLE_COACH]
         ROLE_BANNED: []
         ROLE_COACH: ROLE_COACH
 

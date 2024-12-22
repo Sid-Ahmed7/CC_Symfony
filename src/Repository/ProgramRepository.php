@@ -59,4 +59,12 @@ public function findProgramsByCoach($coach): array
         ->getQuery()
         ->getResult();
 }
+public function findLatestPrograms($limit = 5): array
+{
+    return $this->createQueryBuilder('p')
+        ->orderBy('p.id', 'DESC')
+        ->setMaxResults($limit)
+        ->getQuery()
+        ->getResult();
+}
 }

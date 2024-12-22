@@ -7,6 +7,7 @@ use App\Entity\Session;
 use App\Entity\Coach;
 use App\Form\ProgramType;
 use App\Form\SessionType;
+use App\Service\FileUploader;
 use App\Repository\ProgramRepository;
 use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -42,6 +43,7 @@ class CoachController extends AbstractController
     public function new(
         Request $request,
         EntityManagerInterface $entityManager,
+        FileUploader $fileUploader
     ): Response {
         $program = new Program();
         $form = $this->createForm(ProgramType::class, $program);
@@ -50,7 +52,11 @@ class CoachController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $program->setCoach($this->getUser());
             $program->setCreatedAt(new \DateTimeImmutable());
-            $program->setCoverImage("https://picsum.photos/400/550?random=<numberBetween(1, 100)>");
+            $uploadedFile = $form->get('coverImage')->getData();
+            if ($uploadedFile) {
+                $newFilename = $fileUploader->upload($uploadedFile, '/program_pictures');
+                $program->setCoverImage($newFilename);
+            }
    
             $entityManager->persist($program);
             $entityManager->flush();
@@ -67,12 +73,18 @@ class CoachController extends AbstractController
 
     #[Route('/program/{id}/edit', name: 'app_program_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_COACH')]
-    public function edit(Request $request, Program $program, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Program $program, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $uploadedFile = $form->get('coverImage')->getData();
+
+            if ($uploadedFile) {
+                $newFilename = $fileUploader->upload($uploadedFile, '/program_pictures');
+                $program->setCoverImage($newFilename);
+            }
 
             $entityManager->flush();
 

@@ -43,11 +43,11 @@ class ProgramType extends AbstractType
                 'widget' => 'single_text',
                 'required' => true,
             ])
-            // ->add('coverImage', FileType::class, [
-            //     'label' => 'Image du programme',
-            //     'mapped' => false,
-            //     'required' => true,
-            // ])
+            ->add('coverImage', FileType::class, [
+                'label' => 'Image du programme',
+                'mapped' => false,
+                'required' => true,
+            ])
             ->add('difficulty', EnumType::class, [
                 'class' => DifficultyEnum::class,
             ])

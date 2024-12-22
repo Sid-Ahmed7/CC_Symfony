@@ -40,4 +40,12 @@ class SpecialityRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+public function findLatestSpecialities($limit = 5): array
+{
+    return $this->createQueryBuilder('s')
+        ->orderBy('s.id', 'DESC')
+        ->setMaxResults($limit)
+        ->getQuery()
+        ->getResult();
+}
 }

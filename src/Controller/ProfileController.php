@@ -91,7 +91,7 @@ class ProfileController extends AbstractController
         }
 
         return $this->render('profile/edit_user_profile.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 
@@ -136,7 +136,7 @@ class ProfileController extends AbstractController
         }
     
         return $this->render('profile/edit_coach_profile.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 

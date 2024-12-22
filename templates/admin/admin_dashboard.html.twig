@@ -5,8 +5,8 @@
 {% block content %}
 <div class="max-w-7xl mx-auto">
     <div class="bg-gray-100 shadow p-4 rounded-lg mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">Bienvenue, {{ admin.firstName }} !</h1>
-        <p class="text-gray-600">Voici un aperçu de l'activité récente de la plateforme.</p>
+        <h1 class="text-2xl font-bold text-gray-800">Bienvenue, {{ admin.firstName }}{{ admin.lastName }} !</h1>
+
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -15,9 +15,9 @@
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-gray-100">
-                        <th class="py-2 px-4 border-b">Nom</th>
+                        <th class="py-2 px-4 border-b">Nom - Prénom</th>
                         <th class="py-2 px-4 border-b">Email</th>
-                        <th class="py-2 px-4 border-b">Actions</th>
+                        <th class="py-2 px-4 border-b">Date de naissance</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,8 +25,7 @@
                         <tr>
                             <td class="py-2 px-4 border-b">{{ user.firstName }} {{ user.lastName }}</td>
                             <td class="py-2 px-4 border-b">{{ user.email }}</td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
+                            <td class="py-2 px-4 border-b">{{ user.birthDate | date('d/m/Y') }}</td>
                         </tr>
                     {% else %}
                         <tr>
@@ -48,7 +47,7 @@
                     <tr class="bg-gray-100">
                         <th class="py-2 px-4 border-b">Nom</th>
                         <th class="py-2 px-4 border-b">Email</th>
-                        <th class="py-2 px-4 border-b">Actions</th>
+                        <th class="py-2 px-4 border-b">Numéro de téléphone</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,8 +55,8 @@
                         <tr>
                             <td class="py-2 px-4 border-b">{{ coach.firstName }} {{ coach.lastName }}</td>
                             <td class="py-2 px-4 border-b">{{ coach.email }}</td>
-                            <td class="py-2 px-4 border-b">
-                            </td>
+                            <td class="py-2 px-4 border-b">{{coach.phone }}</td>
+                            
                         </tr>
                     {% else %}
                         <tr>
@@ -78,7 +77,7 @@
                     <tr class="bg-gray-100">
                         <th class="py-2 px-4 border-b">Nom</th>
                         <th class="py-2 px-4 border-b">Date</th>
-                        <th class="py-2 px-4 border-b">Actions</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -86,9 +85,7 @@
                         <tr>
                             <td class="py-2 px-4 border-b">{{ program.name }}</td>
                             <td class="py-2 px-4 border-b">{{ program.createdAt|date('d/m/Y') }}</td>
-                            <td class="py-2 px-4 border-b">
-                                {# <a href="{{ path('programme_details', { id: programme.id }) }}" class="text-blue-500 hover:underline">Voir</a> #}
-                            </td>
+
                         </tr>
                     {% else %}
                         <tr>
@@ -98,7 +95,7 @@
                 </tbody>
             </table>
             <div class="mt-4">
-                {# <a href="{{ path('programmes_list') }}" class="text-blue-500 hover:underline">Voir tout</a> #}
+                <a href="{{ path('app_admin_programs') }}" class="text-blue-500 hover:underline">Voir tout</a>
             </div>
         </div>
 
@@ -109,7 +106,7 @@
                     <tr class="bg-gray-100">
                         <th class="py-2 px-4 border-b">Nom</th>
                         <th class="py-2 px-4 border-b">Date</th>
-                        <th class="py-2 px-4 border-b">Actions</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -117,9 +114,7 @@
                         <tr>
                             <td class="py-2 px-4 border-b">{{ session.title }}</td>
                             <td class="py-2 px-4 border-b">{{ session.date|date('d/m/Y') }}</td>
-                            <td class="py-2 px-4 border-b">
-                                {# <a href="{{ path('seance_details', { id: seance.id }) }}" class="text-blue-500 hover:underline">Voir</a> #}
-                            </td>
+
                         </tr>
                     {% else %}
                         <tr>
@@ -129,7 +124,60 @@
                 </tbody>
             </table>
             <div class="mt-4">
-                {# <a href="{{ path('seances_list') }}" class="text-blue-500 hover:underline">Voir tout</a> #}
+                <a href="{{ path('app_admin_programs') }}" class="text-blue-500 hover:underline">Voir tout</a>
+            </div>
+        </div>
+        
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Dernières catégorie</h2>
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="py-2 px-4 border-b">Nom</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for categorie in categories %}
+                        <tr>
+                            <td class="py-2 px-4 border-b">{{ categorie.name }}</td>
+
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3" class="py-2 px-4 text-gray-500 text-center">Aucune catégorie trouvée.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="mt-4">
+                <a href="{{ path('app_admin_categories_and_specialities') }}" class="text-blue-500 hover:underline">Voir tout</a>
+            </div>
+        </div>
+        
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Dernières spécialités des coachs</h2>
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="py-2 px-4 border-b">Nom</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for specialitie in specialities %}
+                        <tr>
+                            <td class="py-2 px-4 border-b">{{ specialities.name }}</td>
+
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3" class="py-2 px-4 text-gray-500 text-center">Aucune spécialité trouvée.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="mt-4">
+                <a href="{{ path('app_admin_categories_and_specialities') }}" class="text-blue-500 hover:underline">Voir tout</a>
             </div>
         </div>
     </div>

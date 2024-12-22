@@ -1,6 +1,5 @@
 {{ form_start(form) }}
 
-    <!-- Title Field -->
     <div class="mb-4">
         {{ form_label(form.title, null, {'attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
         <div class="mt-1">
@@ -9,7 +8,6 @@
         {{ form_errors(form.title, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
     </div>
 
-    <!-- Description Field -->
     <div class="mb-4">
         {{ form_label(form.description, null, {'attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
         <div class="mt-1">
@@ -18,7 +16,6 @@
         {{ form_errors(form.description, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
     </div>
 
-    <!-- Date Field -->
     <div class="mb-4">
         {{ form_label(form.date, null, {'attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
         <div class="mt-1">
@@ -27,7 +24,6 @@
         {{ form_errors(form.date, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
     </div>
 
-    <!-- Duration Field -->
     <div class="mb-4">
         {{ form_label(form.duration, null, {'attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
         <div class="mt-1">
@@ -36,7 +32,6 @@
         {{ form_errors(form.duration, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
     </div>
 
-    <!-- Location Field -->
     <div class="mb-4">
         {{ form_label(form.location, null, {'attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
         <div class="mt-1">
@@ -45,7 +40,6 @@
         {{ form_errors(form.location, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
     </div>
 
-    <!-- Program Field -->
     <div class="mb-4">
         {{ form_label(form.program, null, {'attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
         <div class="mt-1">
@@ -54,7 +48,6 @@
         {{ form_errors(form.program, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
     </div>
 
-    <!-- Status Field -->
     <div class="mb-4">
         {{ form_label(form.status, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
         <div class="mt-1">
@@ -65,10 +58,9 @@
 
 
 
-    <!-- Submit Button -->
     <div class="mt-6">
         <button type="submit" class="w-full py-2 px-4 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-            {{ button_label|default('Save') }}
+            {{ button_label|default('Ajouter') }}
         </button>
     </div>
 

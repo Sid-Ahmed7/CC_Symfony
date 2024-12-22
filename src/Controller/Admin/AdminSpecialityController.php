@@ -18,13 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class AdminSpecialityController extends AbstractController
 {
-    #[Route(name: 'app_admin_speciality_index', methods: ['GET'])]
-    public function index(SpecialityRepository $specialityRepository): Response
-    {
-        return $this->render('admin_speciality/index.html.twig', [
-            'specialities' => $specialityRepository->findAll(),
-        ]);
-    }
+
 
     #[Route('/new', name: 'app_admin_speciality_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -37,10 +31,10 @@ final class AdminSpecialityController extends AbstractController
             $entityManager->persist($speciality);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_admin_speciality_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_admin_categories_and_specialities', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin_speciality/new.html.twig', [
+        return $this->render('admin/form/admin_speciality/new.html.twig', [
             'speciality' => $speciality,
             'form' => $form,
         ]);
@@ -63,10 +57,10 @@ final class AdminSpecialityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_admin_speciality_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_admin_categories_and_specialities', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin_speciality/edit.html.twig', [
+        return $this->render('admin/form/admin_speciality/edit.html.twig', [
             'speciality' => $speciality,
             'form' => $form,
         ]);
@@ -80,6 +74,6 @@ final class AdminSpecialityController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_admin_speciality_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_admin_categories_and_specialities', [], Response::HTTP_SEE_OTHER);
     }
 }

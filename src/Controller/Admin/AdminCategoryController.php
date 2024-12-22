@@ -16,33 +16,34 @@ use Symfony\Component\Routing\Attribute\Route;
 #[IsGranted('ROLE_ADMIN')]
 final class AdminCategoryController extends AbstractController
 {
-    #[Route(name: 'app_admin_category_index', methods: ['GET'])]
-    public function index(CategoryRepository $categoryRepository): Response
-    {
-        return $this->render('admin/form/admin_category/index.html.twig', [
-            'categories' => $categoryRepository->findAll(),
-        ]);
-    }
 
     #[Route('/new', name: 'app_admin_category_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository): Response
     {
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
+            $existingCategory = $categoryRepository->findOneBy(['name' => $category->getName()]);
+    
+            if ($existingCategory) {
+                $this->addFlash('error', 'Une catégorie avec ce nom existe déjà.');
+                    return $this->redirectToRoute('app_admin_category_new');
+            }
+    
             $entityManager->persist($category);
             $entityManager->flush();
-
-            return $this->redirectToRoute('admin/form/app_admin_category_index', [], Response::HTTP_SEE_OTHER);
+    
+            return $this->redirectToRoute('app_admin_categories_and_specialities', [], Response::HTTP_SEE_OTHER);
         }
-
+    
         return $this->render('admin/form/admin_category/new.html.twig', [
             'category' => $category,
             'form' => $form,
         ]);
     }
+    
 
     #[Route('/{id}', name: 'app_admin_category_show', methods: ['GET'])]
     public function show(Category $category): Response
@@ -61,7 +62,7 @@ final class AdminCategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin/form/app_admin_category_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_admin_categories_and_specialities', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('admin/form/admin_category/edit.html.twig', [
@@ -78,6 +79,6 @@ final class AdminCategoryController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('admin/form/app_admin_category_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_admin_categories_and_specialities', [], Response::HTTP_SEE_OTHER);
     }
 }

@@ -65,7 +65,7 @@ class CoachController extends AbstractController
     
         return $this->render('program/new.html.twig', [
             'program' => $program,
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
     

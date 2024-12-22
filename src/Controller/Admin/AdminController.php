@@ -5,6 +5,8 @@ namespace App\Controller\Admin;
 use App\Entity\User;
 use App\Entity\Coach;
 use App\Repository\UserRepository;
+use App\Repository\CategoryRepository;
+use App\Repository\SpecialityRepository;
 use App\Repository\CoachRepository;
 use App\Repository\ProgramRepository;
 use App\Repository\SessionRepository;
@@ -29,19 +31,23 @@ use App\Service\FileUploader;
 class AdminController extends AbstractController
 {
     #[Route( name: 'app_admin')]
-    public function index(EntityManagerInterface $entityManager, UserRepository $userRepository, CoachRepository $coachRepository, ProgramRepository $programRepository, SessionRepository $sessionRepository): Response
+    public function index(EntityManagerInterface $entityManager, UserRepository $userRepository,CoachRepository $coachRepository, ProgramRepository $programRepository, SessionRepository $sessionRepository, CategoryRepository $categoryRepository, SpecialityRepository $specialityRepository): Response
     {
         $admin = $this->getUser();
         $users = $userRepository->findLatestUsers(5);
         $coachs = $coachRepository->findLatestCoaches(5);
         $programs = $programRepository->findLatestPrograms(5);
         $sessions = $sessionRepository->findLatestSessions(5);
+        $categories = $categoryRepository->findLatestCategories(5);
+        $specialities = $specialityRepository->findLatestSpecialities(5);
         return $this->render('admin/admin_dashboard.html.twig', [
             'admin' => $admin,
             'users' => $users,
             'coachs' => $coachs,
             'programs' => $programs,
             'sessions' => $sessions,
+            'categories' => $categories,
+            'specialities' => $specialities,
         ]);
     }
 
@@ -222,7 +228,7 @@ class AdminController extends AbstractController
         }
 
         return $this->render('admin/form/coach/edit.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 
@@ -263,7 +269,38 @@ class AdminController extends AbstractController
     
         return $this->redirectToRoute('app_admin_users', [], Response::HTTP_SEE_OTHER);
     }
-
+    #[Route('/gestion/categories-et-specialites', name: 'app_admin_categories_and_specialities')]
+    public function gestionCategoriesAndSpecialities(
+        CategoryRepository $categoryRepository,
+        SpecialityRepository $specialityRepository,
+        Request $request
+    ): Response {
+        $pageSize = 5;
+        $currentPageCategory = $request->query->getInt('pageCategory', 1);
+        $currentPageSpeciality = $request->query->getInt('pageSpeciality', 1);
+        
+        $offsetCategory = ($currentPageCategory - 1) * $pageSize;
+        $offsetSpeciality = ($currentPageSpeciality - 1) * $pageSize;
+    
+        $categories = $categoryRepository->findBy([], null, $pageSize, $offsetCategory);
+        $specialities = $specialityRepository->findBy([], null, $pageSize, $offsetSpeciality);
+    
+        $totalCategories = $categoryRepository->count([]);
+        $totalSpecialities = $specialityRepository->count([]);
+    
+        $totalPagesCategory = ceil($totalCategories / $pageSize);
+        $totalPagesSpeciality = ceil($totalSpecialities / $pageSize);
+    
+        return $this->render('admin/admin_category.html.twig', [
+            'categories' => $categories,
+            'specialities' => $specialities,
+            'currentPageCategory' => $currentPageCategory,
+            'totalPagesCategory' => $totalPagesCategory,
+            'currentPageSpeciality' => $currentPageSpeciality,
+            'totalPagesSpeciality' => $totalPagesSpeciality,
+        ]);
+    }
+    
     
 
 }
